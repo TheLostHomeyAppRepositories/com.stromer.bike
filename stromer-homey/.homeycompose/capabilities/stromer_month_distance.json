@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Month Distance"
+  },
+  "units": {
+    "en": "km"
+  },
+  "decimals": 2,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/distance.svg",
+  "min": 0,
+  "insights": true,
+  "chartType": "stepLine"
+}

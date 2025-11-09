@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Average Energy Consumption"
+  },
+  "units": {
+    "en": "Wh/km"
+  },
+  "decimals": 1,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/energy.svg",
+  "min": 0,
+  "insights": true,
+  "chartType": "spline"
+}

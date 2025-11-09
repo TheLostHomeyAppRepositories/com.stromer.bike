@@ -1,0 +1,146 @@
+{
+  "name": {
+    "en": "Stromer Bike"
+  },
+  "class": "other",
+  "capabilities": [
+    "measure_battery",
+    "stromer_battery_health",
+    "alarm_theft",
+    "stromer_motor_temp_c",
+    "stromer_battery_temp_c",
+    "stromer_trip_distance",
+    "stromer_average_speed_trip",
+    "stromer_distance_total",
+    "stromer_distance_avg_speed",
+    "stromer_year_distance",
+    "stromer_year_avg_speed",
+    "stromer_month_distance",
+    "stromer_month_avg_speed",
+    "stromer_day_avg_speed",
+    "stromer_avg_energy",
+    "stromer_total_distance",
+    "stromer_lifetime_total_km",
+    "stromer_latitude",
+    "stromer_longitude",
+    "stromer_bike_speed",
+    "stromer_assistance_level",
+    "onoff",
+    "locked"
+  ],
+  "capabilitiesOptions": {
+    "onoff": {
+      "title": {
+        "en": "Light"
+      }
+    },
+    "locked": {
+      "title": {
+        "en": "Lock"
+      }
+    }
+  },
+  "images": {
+    "small": "/drivers/stromer-bike/assets/images/small.png",
+    "large": "/drivers/stromer-bike/assets/images/large.png",
+    "xlarge": "/drivers/stromer-bike/assets/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "login_credentials",
+      "template": "login_credentials",
+      "options": {
+        "title": {
+          "en": "Login to Stromer"
+        },
+        "usernameLabel": {
+          "en": "Email"
+        },
+        "usernamePlaceholder": {
+          "en": "your@email.com"
+        },
+        "passwordLabel": {
+          "en": "Password"
+        },
+        "passwordPlaceholder": {
+          "en": "Password"
+        }
+      }
+    },
+    {
+      "id": "login_oauth2",
+      "template": "login_oauth2"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Polling Settings"
+      },
+      "children": [
+        {
+          "id": "poll_interval",
+          "type": "number",
+          "label": {
+            "en": "Default Polling Interval (minutes)"
+          },
+          "value": 10,
+          "min": 1,
+          "max": 60,
+          "hint": {
+            "en": "How often to check bike status when inactive (1-60 minutes)"
+          }
+        },
+        {
+          "id": "active_poll_interval",
+          "type": "number",
+          "label": {
+            "en": "Active Polling Interval (seconds)"
+          },
+          "value": 30,
+          "min": 10,
+          "max": 300,
+          "hint": {
+            "en": "How often to check bike status when active/unlocked (10-300 seconds)"
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Bike Information"
+      },
+      "children": [
+        {
+          "id": "bike_id",
+          "type": "label",
+          "label": {
+            "en": "Bike ID"
+          },
+          "value": "-"
+        },
+        {
+          "id": "bike_nickname",
+          "type": "label",
+          "label": {
+            "en": "Bike Name"
+          },
+          "value": "-"
+        }
+      ]
+    }
+  ]
+}
