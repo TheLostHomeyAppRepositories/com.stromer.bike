@@ -8,6 +8,8 @@ class StromerOAuth2Client extends OAuth2Client {
   static TOKEN_URL = 'https://api3.stromer-portal.ch/o/token/';
   static AUTHORIZATION_URL = 'https://api3.stromer-portal.ch/o/authorize/';
   static SCOPES = [];
+  static CLIENT_ID = '';
+  static CLIENT_SECRET = '';
 
   async onHandleNotOK({ body, status, statusText, headers }) {
     if (status === 401) {
