@@ -7,7 +7,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "icon": "/assets/assistance.svg",
   "min": 0,
   "max": 3,
   "insights": true,

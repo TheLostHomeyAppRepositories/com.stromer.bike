@@ -10,7 +10,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "icon": "/assets/speed.svg",
   "min": 0,
   "insights": true,
   "chartType": "spline"

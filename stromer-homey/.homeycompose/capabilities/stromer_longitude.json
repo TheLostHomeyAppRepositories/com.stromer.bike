@@ -7,6 +7,5 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "icon": "/assets/location.svg",
   "insights": false
 }

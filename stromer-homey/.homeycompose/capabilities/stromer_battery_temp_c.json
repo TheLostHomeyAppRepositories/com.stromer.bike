@@ -10,7 +10,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "icon": "/assets/temperature.svg",
   "insights": true,
   "chartType": "spline"
 }

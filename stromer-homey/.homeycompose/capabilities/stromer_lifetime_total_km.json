@@ -10,7 +10,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "icon": "/assets/distance.svg",
   "min": 0,
   "insights": true,
   "chartType": "stepLine"
