@@ -1,0 +1,119 @@
+You are to build a professional, robust, and user-friendly Stromer app for Homey, designed for both tech enthusiasts and everyday Stromer riders. Your deliverable is a Homey app (Node.js, SDK v3) that supports multi-bike, rich device capabilities, adaptive polling, and seamless integration with Homey Flows including advanced triggers and condition cards for battery health and trip average. The app must include clear user documentation and MITM instructions for retrieving credentials.
+
+Functional and Technical Requirements
+Authentication & API Support
+* Implement the full Stromer OAuth2 authorization code flow (handle CSRF, cookies, redirects) for both v4 (no client_secret) and v3 (with client_secret) accounts.
+* Use https://api3.stromer-portal.ch endpoints, supporting both:
+    * /mobile/v4/login/ and /mobile/v4/o/token/
+    * /users/login/ and /o/token/
+* Support token refresh
+* Persist and rotate access_token and refresh_token as needed; refresh proactively and on 401s.
+* If refresh fails, prompt the user to re-authenticate.
+* The screen for login and authentication must be available in the app, after filling in and logging in, a successful message showing bike first name bike last name
+* In this screen offer the function to logout and get back to the login screen
+* After successful login the bike must be added via “Add device” 
+
+Device Capabilities
+* Support multi-bike: enumerate all bikes in the account, allow user to add each as a Homey device.
+* Show the available bikes from the account and allow selecting the bike, if there is one bike available skip this screen
+* Each Stromer bike device must expose:
+    * Battery SOC (measure_battery)
+    * Battery health (stromer_battery_health)
+    * Theft flag (alarm_theft)
+    * Motor temperature (stromer_motor_temp_c)
+    * Battery temperature (stromer_battery_temp_c)
+    * Trip distance (stromer_trip_distance)
+    * Average speed (trip) (stromer_average_speed_trip)
+    * Distance
+    * Distance Average speed
+    * Year Distance
+    * Year Average speed
+    * Month Distance
+    * Month Average speed
+    * Day Average speed
+    * Average energy consumption
+    * Total distance (stromer_total_distance)
+    * Lifetime distance (stromer_lifetime_total_km = legacy + total_distance)
+    * Latitude/Longitude (stromer_latitude, stromer_longitude)
+    * Bike speed, assistance level, light and lock status (if available)
+* Insights available for all datapoints
+
+Flow Cards
+* Triggers (If):
+    * Battery SOC drops below a threshold
+    * Battery health drops below a threshold
+    * Bike is unlocked
+    * Theft flag is activated
+    * Trip distance exceeds a value
+    * Average speed of trip exceeds or drops below a value
+    * Bike enters/leaves a geofence (if possible)
+* Conditions (And):
+    * Battery SOC is above/below a value
+    * Battery health is above/below a value
+    * Theft flag is (not) active
+    * Bike is locked/unlocked
+    * Light is on/off
+    * Motor or battery temp within range
+    * Trip average speed is above/below a value
+    * Bike is at home/away (by location)
+* Actions (Then):
+    * Reset trip distance (if API supports)
+    * Toggle light (on/off/dim/bright, if supported)
+    * Lock/unlock bike (if supported)
+    * Send notification with bike status
+    * Update Homey variables/tags
+
+Polling & Scheduling
+* Default polling every 10 minutes; adaptive polling (down to every 30 seconds) when bike is unlocked, moving, or theft detected.
+* Exponential backoff on API/server errors.
+
+User Experience & Security
+* In-app login flow with username, password, client_id (client_secret optional).
+* Settings UI for login, diagnostics, and bike selection.
+* Store credentials/tokens securely (encrypted).
+* Never log or expose secrets/tokens.
+* User-friendly error messages and re-login prompts.
+
+Reference:
+- This app is build here https://github.com/CoMPaTech/stromer for Home Assistant
+- This app is build here Domoticz-Stromer-plugin for Domoticz 
+- Use https://apps.developer.homey.app/the-basics/getting-started for detailed app build guidelines for Homey don’t deviate from the guidelines given. This app is for the Homey Pro 2023
+
+Documentation
+* README with:
+    * Overview, features, installation, and user journey
+    * How to retrieve client_id/client_secret (step-by-step MITM instructions for Mac/iPhone)
+    * Detailed explanation of Flow cards (If/And/Then), including for battery health and trip average
+    * Troubleshooting, support, changelog, and legal notes
+* Functional documentation for all features, error handling, and privacy.
+
+Images: use these images for the app and amend to the right formats
+https://images.stromerbike.com/10la3nlst4r0/7AXwFMIPnamksIhESBVB0n/315bd2bc8324a682e59afe778d29b70f/Stromer_Wordmark-Symbol_black.png (app logo)
+https://www.stromerbike.com/favicon.ico (use in tile in homey app, also when adding an app)
+
+Support & Roadmap
+* Diagnostics export (with secrets redacted) for troubleshooting.
+* Roadmap for future features (geofencing, theft recovery, Homey Insights, etc.).
+
+Optional/Advanced
+* Scaffold POST commands for light/lock/trip reset; implement if Stromer API allows.
+* Mock mode for local testing (with sample payloads).
+
+Deliverables
+* Full Homey app repo: app.json, drivers, lib/auth, lib/api, settings UI, docs, and tests.
+* README and user documentation as described above.
+* All Flow cards for triggers, conditions, and actions as specifiedâ€”including for battery health and trip average.
+* Step-by-step MITM instructions for Mac/iPhone in the docs.
+
+Tone: Professional, friendly, and a touch teasingâ€”think C-level clarity with ESTP confidence. Make it robust, make it fun, make it the best Stromer integration Homey users have ever seen.
+
+Start with:
+* Implementing the login/auth flow and token management. After this is successful proceed with the rest:
+* Scaffolding the app, device, and Flow cards.
+* Polling and capability updates.
+* Documentation and MITM instructions.
+
+Test Data (during the test of the app)
+client_id:			4P3VE9rBYdueKQioWb7nv7RJDU8EQsn2wiQaNqhG
+username:            woutdool@gmail.com
+password:            babvyd-fybbi3-Nynhyr
