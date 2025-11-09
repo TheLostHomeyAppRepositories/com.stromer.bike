@@ -3,6 +3,11 @@
     "en": "Stromer Bike"
   },
   "class": "other",
+  "energy": {
+    "batteries": [
+      "INTERNAL"
+    ]
+  },
   "capabilities": [
     "measure_battery",
     "stromer_battery_health",

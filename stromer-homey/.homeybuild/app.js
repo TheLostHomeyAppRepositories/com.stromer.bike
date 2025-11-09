@@ -12,26 +12,6 @@ class StromerApp extends OAuth2App {
   async onOAuth2Init() {
     this.log('Stromer app has been initialized');
 
-    this.homey.flow.getDeviceTriggerCard('battery_low')
-      .registerRunListener(async (args, state) => {
-        return args.threshold >= state.threshold;
-      });
-
-    this.homey.flow.getDeviceTriggerCard('battery_health_low')
-      .registerRunListener(async (args, state) => {
-        return args.threshold >= state.threshold;
-      });
-
-    this.homey.flow.getDeviceTriggerCard('trip_distance_exceeds')
-      .registerRunListener(async (args, state) => {
-        return state.distance >= args.distance;
-      });
-
-    this.homey.flow.getDeviceTriggerCard('trip_speed_exceeds')
-      .registerRunListener(async (args, state) => {
-        return state.speed >= args.speed;
-      });
-
     this.homey.flow.getActionCard('reset_trip_distance')
       .registerRunListener(async (args) => {
         return args.device.resetTripDistance();

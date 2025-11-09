@@ -141,11 +141,6 @@ class StromerBikeDevice extends OAuth2Device {
   }
 
   async updateStatusCapabilities(status) {
-    const oldBattery = this.getCapabilityValue('measure_battery');
-    const oldBatteryHealth = this.getCapabilityValue('stromer_battery_health');
-    const oldTheftFlag = this.getCapabilityValue('alarm_theft');
-    const oldLocked = this.getCapabilityValue('locked');
-
     const capabilities = {
       'measure_battery': status.bike_battery_percentage,
       'stromer_battery_health': status.battery_health || status.bike_battery_health,
@@ -166,27 +161,17 @@ class StromerBikeDevice extends OAuth2Device {
       }
     }
 
+    const oldTheftFlag = this.getCapabilityValue('alarm_theft');
     if (capabilities.alarm_theft && !oldTheftFlag) {
       await this.homey.flow.getDeviceTriggerCard('theft_activated')
         .trigger(this, {}, {})
         .catch(this.error);
     }
 
+    const oldLocked = this.getCapabilityValue('locked');
     if (oldLocked && !capabilities.locked) {
       await this.homey.flow.getDeviceTriggerCard('bike_unlocked')
         .trigger(this, {}, {})
-        .catch(this.error);
-    }
-
-    if (oldBattery !== null && capabilities.measure_battery < oldBattery) {
-      await this.homey.flow.getDeviceTriggerCard('battery_low')
-        .trigger(this, {}, { threshold: capabilities.measure_battery })
-        .catch(this.error);
-    }
-
-    if (oldBatteryHealth !== null && capabilities.stromer_battery_health < oldBatteryHealth) {
-      await this.homey.flow.getDeviceTriggerCard('battery_health_low')
-        .trigger(this, {}, { threshold: capabilities.stromer_battery_health })
         .catch(this.error);
     }
   }
@@ -199,9 +184,6 @@ class StromerBikeDevice extends OAuth2Device {
   }
 
   async updateStatisticsCapabilities(statistics) {
-    const oldTripDistance = this.getCapabilityValue('stromer_trip_distance');
-    const oldTripAvgSpeed = this.getCapabilityValue('stromer_average_speed_trip');
-
     const capabilities = {
       'stromer_trip_distance': statistics.trip_distance / 1000,
       'stromer_average_speed_trip': statistics.trip_average_speed,
@@ -225,17 +207,11 @@ class StromerBikeDevice extends OAuth2Device {
       }
     }
 
-    if (oldTripDistance !== null && capabilities.stromer_trip_distance > oldTripDistance) {
-      await this.homey.flow.getDeviceTriggerCard('trip_distance_exceeds')
-        .trigger(this, {}, { distance: capabilities.stromer_trip_distance })
-        .catch(this.error);
-    }
-
-    if (oldTripAvgSpeed !== null && capabilities.stromer_average_speed_trip > oldTripAvgSpeed) {
-      await this.homey.flow.getDeviceTriggerCard('trip_speed_exceeds')
-        .trigger(this, {}, { speed: capabilities.stromer_average_speed_trip })
-        .catch(this.error);
-    }
+    const oldBattery = this.getCapabilityValue('measure_battery');
+    const newBattery = this.getCapabilityValue('measure_battery');
+    
+    const oldBatteryHealth = this.getCapabilityValue('stromer_battery_health');
+    const newBatteryHealth = this.getCapabilityValue('stromer_battery_health');
   }
 
   checkIfActive(status) {

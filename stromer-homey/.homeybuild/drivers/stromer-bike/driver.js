@@ -12,7 +12,7 @@ class StromerBikeDriver extends OAuth2Driver {
   async onPair(session) {
     let username;
     let password;
-    let clientId = '4P3VE9rBYdueKQioWb7nv7RJDU8EQsn2wiQaNqhG';
+    let clientId;
     let clientSecret;
     let oAuth2Client;
 
@@ -20,12 +20,15 @@ class StromerBikeDriver extends OAuth2Driver {
       username = data.username;
       password = data.password;
       
-      const token = await this.authenticateWithCredentials(username, password, clientId, clientSecret);
-      
-      const client = await this.onOAuth2SessionCreated({ sessionId: session.id, token });
-      oAuth2Client = client;
-      
       return true;
+    });
+
+    session.setHandler('showView', async (viewId) => {
+      if (viewId === 'login_oauth2') {
+        if (!username || !password) {
+          throw new Error('Please enter credentials first');
+        }
+      }
     });
 
     session.setHandler('list_devices', async () => {
