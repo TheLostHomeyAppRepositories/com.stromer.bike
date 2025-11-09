@@ -42,6 +42,41 @@ class StromerApp extends OAuth2App {
         return true;
       });
 
+    this.homey.flow.getConditionCard('battery_above')
+      .registerRunListener(async (args) => {
+        const battery = args.device.getCapabilityValue('measure_battery');
+        return battery > args.threshold;
+      });
+
+    this.homey.flow.getConditionCard('battery_health_above')
+      .registerRunListener(async (args) => {
+        const health = args.device.getCapabilityValue('stromer_battery_health');
+        return health > args.threshold;
+      });
+
+    this.homey.flow.getConditionCard('is_locked')
+      .registerRunListener(async (args) => {
+        return args.device.getCapabilityValue('locked');
+      });
+
+    this.homey.flow.getConditionCard('light_on')
+      .registerRunListener(async (args) => {
+        return args.device.getCapabilityValue('onoff');
+      });
+
+    this.homey.flow.getConditionCard('theft_active')
+      .registerRunListener(async (args) => {
+        return args.device.getCapabilityValue('alarm_theft');
+      });
+
+    this.homey.flow.getConditionCard('temp_in_range')
+      .registerRunListener(async (args) => {
+        const temp = args.sensor === 'motor' 
+          ? args.device.getCapabilityValue('stromer_motor_temp_c')
+          : args.device.getCapabilityValue('stromer_battery_temp_c');
+        return temp >= args.min && temp <= args.max;
+      });
+
     this.log('Flow cards registered');
   }
 }
