@@ -9,47 +9,61 @@ class StromerBikeDriver extends Homey.Driver {
   }
 
   async onPair(session) {
+    let username = '';
+    let password = '';
+    let client_id = '';
     let stromerAPI = null;
     let bikes = [];
 
-    session.setHandler('showView', async (viewId) => {
-      this.log(`showView called with viewId: ${viewId}`);
-      
-      if (viewId === 'login_credentials') {
-        session.setHandler('login', async (data) => {
-          const { username, password, client_id } = data;
-          
-          if (!username || !password || !client_id) {
-            throw new Error('Missing required credentials');
-          }
+    session.setHandler('login', async (data) => {
+      this.log('Login handler called with data:', { username: data.username, hasPassword: !!data.password });
+      username = data.username;
+      password = data.password;
 
-          try {
-            stromerAPI = new StromerAPI(this.log.bind(this));
-            
-            await stromerAPI.authenticate(username, password, client_id, null);
-            
-            this.log('Authentication successful, fetching bikes...');
-            bikes = await stromerAPI.getBikes();
-            
-            if (!bikes || bikes.length === 0) {
-              throw new Error('No bikes found in your account');
-            }
+      if (!username || !password) {
+        throw new Error('Email and password are required');
+      }
 
-            this.log(`Found ${bikes.length} bike(s)`);
-            return true;
-          } catch (error) {
-            this.error('Login failed:', error.message);
-            throw new Error(`Authentication failed: ${error.message}`);
-          }
-        });
+      this.log('Credentials received, waiting for client_id in next step');
+      return true;
+    });
+
+    session.setHandler('set_client_id', async (data) => {
+      this.log('Client ID handler called');
+      client_id = data.client_id;
+
+      if (!client_id) {
+        throw new Error('Client ID is required');
+      }
+
+      if (!username || !password) {
+        throw new Error('Please complete login first');
+      }
+
+      try {
+        this.log('Authenticating with Stromer API...');
+        stromerAPI = new StromerAPI(this.log.bind(this));
         
-        this.log('Login handler registered for pairing');
+        await stromerAPI.authenticate(username, password, client_id, null);
+        
+        this.log('Authentication successful, fetching bikes...');
+        bikes = await stromerAPI.getBikes();
+        
+        if (!bikes || bikes.length === 0) {
+          throw new Error('No bikes found in your account');
+        }
+
+        this.log(`Found ${bikes.length} bike(s)`);
+        return true;
+      } catch (error) {
+        this.error('Authentication failed:', error.message);
+        throw new Error(`Authentication failed: ${error.message}`);
       }
     });
 
     session.setHandler('list_devices', async () => {
       if (!bikes || bikes.length === 0) {
-        throw new Error('No bikes available. Please login first.');
+        throw new Error('No bikes available. Please complete authentication first.');
       }
 
       return bikes.map(bike => {
@@ -75,35 +89,50 @@ class StromerBikeDriver extends Homey.Driver {
   }
 
   async onRepair(session, device) {
-    session.setHandler('showView', async (viewId) => {
-      this.log(`Repair: showView called with viewId: ${viewId}`);
-      
-      if (viewId === 'login_credentials') {
-        session.setHandler('login', async (data) => {
-          const { username, password, client_id } = data;
-          
-          if (!username || !password || !client_id) {
-            throw new Error('Missing required credentials');
-          }
+    let username = '';
+    let password = '';
+    let client_id = '';
 
-          try {
-            const stromerAPI = new StromerAPI(this.log.bind(this));
-            await stromerAPI.authenticate(username, password, client_id, null);
-            
-            await device.setStoreValue('client_id', client_id);
-            await device.setStoreValue('tokens', stromerAPI.getTokens());
-            
-            await device.onInit();
-            
-            this.log('Device repaired successfully');
-            return true;
-          } catch (error) {
-            this.error('Repair failed:', error.message);
-            throw new Error(`Re-authentication failed: ${error.message}`);
-          }
-        });
+    session.setHandler('login', async (data) => {
+      this.log('Repair: Login handler called');
+      username = data.username;
+      password = data.password;
+
+      if (!username || !password) {
+        throw new Error('Email and password are required');
+      }
+
+      this.log('Repair: Credentials received, waiting for client_id');
+      return true;
+    });
+
+    session.setHandler('set_client_id', async (data) => {
+      this.log('Repair: Client ID handler called');
+      client_id = data.client_id;
+
+      if (!client_id) {
+        throw new Error('Client ID is required');
+      }
+
+      if (!username || !password) {
+        throw new Error('Please complete login first');
+      }
+
+      try {
+        this.log('Repair: Authenticating with Stromer API...');
+        const stromerAPI = new StromerAPI(this.log.bind(this));
+        await stromerAPI.authenticate(username, password, client_id, null);
         
-        this.log('Login handler registered for repair');
+        await device.setStoreValue('client_id', client_id);
+        await device.setStoreValue('tokens', stromerAPI.getTokens());
+        
+        await device.onInit();
+        
+        this.log('Device repaired successfully');
+        return true;
+      } catch (error) {
+        this.error('Repair failed:', error.message);
+        throw new Error(`Re-authentication failed: ${error.message}`);
       }
     });
   }
