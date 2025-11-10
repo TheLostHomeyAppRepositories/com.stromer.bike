@@ -52,11 +52,10 @@
   },
   "pair": [
     {
-      "id": "login_credentials"
-    },
-    {
-      "id": "login_oauth2",
-      "template": "login_oauth2"
+      "id": "login_credentials",
+      "navigation": {
+        "next": "list_devices"
+      }
     },
     {
       "id": "list_devices",
@@ -68,6 +67,14 @@
     {
       "id": "add_devices",
       "template": "add_devices"
+    }
+  ],
+  "repair": [
+    {
+      "id": "login_credentials",
+      "navigation": {
+        "next": "done"
+      }
     }
   ],
   "settings": [
