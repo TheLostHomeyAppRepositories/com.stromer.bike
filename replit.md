@@ -79,8 +79,9 @@ The pairing process uses **app-level settings** - dramatically simplified from p
 1. **User configures App Settings** (one-time setup):
    - Navigate to app settings in Homey
    - Enter email, password, and client_id
-   - Click "Test Connection" to validate (optional but recommended)
+   - Save settings to authenticate
    - Password automatically cleared after successful authentication
+   - Notification shows success and bike count
    
 2. **Add devices** (simple bike selection):
    - Click "Add Device" in Homey
@@ -106,8 +107,7 @@ The pairing process uses **app-level settings** - dramatically simplified from p
 - Debounced (1 second) to prevent partial credential saves
 - Automatically re-authenticates when credentials changed
 - Clears password after successful authentication
-- Shows notifications for success/failure
-- Test Connection button validates credentials and shows bike count
+- Shows notifications for success/failure with bike count
 
 **Rationale**: App-level authentication matches user expectations (like Philips Hue, Nest, etc.) where you configure account credentials once and all devices use them. Eliminates redundant credential entry and simplifies pairing to just "pick your bike". Vastly superior UX compared to per-device authentication.
 
@@ -225,8 +225,8 @@ The application follows Homey's prescribed structure:
 
 1. **App Settings Configuration** (`.homeycompose/app.json`):
    - Added email, password, client_id fields
-   - Added "Test Connection" button for credential validation
    - Password automatically cleared after successful authentication
+   - Notifications show authentication status and bike count
 
 2. **StromerAuthService Singleton** (`app.js`):
    - Centralized token management for all devices
@@ -266,7 +266,7 @@ The application follows Homey's prescribed structure:
 ✓ App-level authentication implemented
 ✓ Automatic token refresh with mutex
 ✓ Password security (cleared after auth)
-✓ Test Connection validation
+✓ Settings validation with notifications
 ✓ Automatic migration support
 ✓ All 20 custom capabilities functional
 ✓ All 17 Flow cards validated

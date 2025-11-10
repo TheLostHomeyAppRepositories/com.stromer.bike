@@ -125,8 +125,9 @@ class StromerApp extends Homey.App {
               this.log('Password cleared after successful authentication');
             }
             
+            const bikes = await this.authService.getBikes();
             await this.homey.notifications.createNotification({
-              excerpt: 'Stromer authentication successful! Your bikes are now connected.'
+              excerpt: `Stromer authentication successful! Found ${bikes.length} bike(s) in your account.`
             });
           } catch (error) {
             this.error('Authentication failed:', error);
@@ -136,35 +137,6 @@ class StromerApp extends Homey.App {
           }
           settingsTimeout = null;
         }, 1000);
-      } else if (key === 'test_connection') {
-        this.log('Test connection requested');
-        try {
-          const email = this.homey.settings.get('stromer_email');
-          const password = this.homey.settings.get('stromer_password');
-          const clientId = this.homey.settings.get('stromer_client_id');
-
-          if (!email || !password || !clientId) {
-            throw new Error('Please enter email, password, and client ID first');
-          }
-
-          await this.authService.authenticateFromSettings();
-          
-          const bikes = await this.authService.getBikes();
-          
-          const passwordStored = this.homey.settings.get('stromer_password');
-          if (passwordStored) {
-            this.homey.settings.unset('stromer_password');
-          }
-
-          await this.homey.notifications.createNotification({
-            excerpt: `Connection successful! Found ${bikes.length} bike(s) in your account.`
-          });
-        } catch (error) {
-          this.error('Test connection failed:', error);
-          await this.homey.notifications.createNotification({
-            excerpt: `Connection failed: ${error.message}`
-          });
-        }
       }
     });
 

@@ -81,24 +81,6 @@
           }
         }
       ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Connection Status"
-      },
-      "children": [
-        {
-          "id": "test_connection",
-          "type": "button",
-          "label": {
-            "en": "Test Connection"
-          },
-          "hint": {
-            "en": "Click to test your Stromer credentials and view authentication status"
-          }
-        }
-      ]
     }
   ]
 }
