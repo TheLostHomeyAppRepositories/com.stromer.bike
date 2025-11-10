@@ -1,22 +1,12 @@
 'use strict';
 
 const Homey = require('homey');
-const StromerAPI = require('../../lib/StromerAPI');
 
 class StromerBikeDevice extends Homey.Device {
   async onInit() {
     this.log('StromerBikeDevice has been initialized');
 
-    this.api = new StromerAPI(this.log.bind(this));
-    
-    const store = this.getStore();
-    
-    if (!store.tokens || !store.client_id) {
-      throw new Error('Device not properly configured. Please repair the device.');
-    }
-    
-    this.api.setCredentials(null, null, store.client_id, null);
-    this.api.setTokens(store.tokens);
+    this.authService = this.homey.app.getAuthService();
 
     const settings = this.getSettings();
     this.pollInterval = (settings.poll_interval || 10) * 60 * 1000;
@@ -89,21 +79,19 @@ class StromerBikeDevice extends Homey.Device {
       const bikeId = this.getData().id;
       
       const [status, position] = await Promise.all([
-        this.api.getBikeState(bikeId).catch(err => {
+        this.authService.getBikeState(bikeId).catch(err => {
           this.error('Failed to get bike status:', err);
           return null;
         }),
-        this.api.getBikePosition(bikeId).catch(err => {
+        this.authService.getBikePosition(bikeId).catch(err => {
           this.error('Failed to get bike position:', err);
           return null;
         })
       ]);
 
       if (!status && !position) {
-        throw new Error('Failed to fetch any bike data');
+        throw new Error('Failed to fetch bike data');
       }
-
-      await this.setStoreValue('tokens', this.api.getTokens());
 
       this.retryCount = 0;
 
@@ -129,8 +117,8 @@ class StromerBikeDevice extends Homey.Device {
     } catch (error) {
       this.error('Failed to update bike data:', error);
       
-      if (error.message && (error.message.includes('refresh_token') || error.message.includes('invalid_grant') || error.message.includes('Token refresh failed'))) {
-        await this.setUnavailable('Authentication expired. Please repair the device to re-authenticate.').catch(this.error);
+      if (error.message && (error.message.includes('credentials') || error.message.includes('authentication') || error.message.includes('401'))) {
+        await this.setUnavailable('Authentication failed. Please check App Settings and update credentials.').catch(this.error);
         this.stopPolling();
         return;
       }
@@ -149,6 +137,13 @@ class StromerBikeDevice extends Homey.Device {
         await this.updateBikeData();
         this.startPolling();
       }, backoffDelay);
+    }
+  }
+
+  async updatePositionCapabilities(position) {
+    if (position && position.latitude && position.longitude) {
+      await this.setCapabilityValue('stromer_latitude', position.latitude).catch(this.error);
+      await this.setCapabilityValue('stromer_longitude', position.longitude).catch(this.error);
     }
   }
 
@@ -210,13 +205,6 @@ class StromerBikeDevice extends Homey.Device {
     }
   }
 
-  async updatePositionCapabilities(position) {
-    if (position.latitude && position.longitude) {
-      await this.setCapabilityValue('stromer_latitude', position.latitude).catch(this.error);
-      await this.setCapabilityValue('stromer_longitude', position.longitude).catch(this.error);
-    }
-  }
-
   checkIfActive(status) {
     if (!status) return false;
     
@@ -232,7 +220,7 @@ class StromerBikeDevice extends Homey.Device {
   async setLight(mode) {
     try {
       const bikeId = this.getData().id;
-      await this.api.setBikeLight(bikeId, mode);
+      await this.authService.setBikeLight(bikeId, mode);
       
       await this.setCapabilityValue('onoff', mode === 'on' || mode === 'bright').catch(this.error);
       
@@ -248,7 +236,7 @@ class StromerBikeDevice extends Homey.Device {
   async setLock(lock) {
     try {
       const bikeId = this.getData().id;
-      await this.api.setBikeLock(bikeId, lock);
+      await this.authService.setBikeLock(bikeId, lock);
       
       await this.setCapabilityValue('locked', lock).catch(this.error);
       
@@ -264,7 +252,7 @@ class StromerBikeDevice extends Homey.Device {
   async resetTripDistance() {
     try {
       const bikeId = this.getData().id;
-      await this.api.resetTripData(bikeId);
+      await this.authService.resetTripData(bikeId);
       
       await this.setCapabilityValue('stromer_trip_distance', 0).catch(this.error);
       
