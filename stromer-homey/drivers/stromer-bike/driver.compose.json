@@ -78,7 +78,6 @@
     },
     {
       "id": "client_id_input",
-      "template": "custom",
       "navigation": {
         "next": "list_devices"
       }
@@ -123,7 +122,6 @@
     },
     {
       "id": "client_id_input",
-      "template": "custom",
       "navigation": {
         "next": "done"
       }
