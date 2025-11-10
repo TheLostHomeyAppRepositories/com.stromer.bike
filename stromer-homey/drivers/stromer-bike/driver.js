@@ -12,13 +12,14 @@ class StromerBikeDriver extends OAuth2Driver {
   async onPair(session) {
     let username;
     let password;
-    let clientId = '4P3VE9rBYdueKQioWb7nv7RJDU8EQsn2wiQaNqhG';
+    let clientId;
     let clientSecret;
     let oAuth2Client;
 
     session.setHandler('login', async (data) => {
       username = data.username;
       password = data.password;
+      clientId = data.client_id;
       
       const token = await this.authenticateWithCredentials(username, password, clientId, clientSecret);
       
