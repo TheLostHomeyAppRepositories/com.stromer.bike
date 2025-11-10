@@ -1,15 +1,9 @@
 'use strict';
 
-const { OAuth2App } = require('homey-oauth2app');
-const StromerOAuth2Client = require('./lib/StromerOAuth2Client');
+const Homey = require('homey');
 
-class StromerApp extends OAuth2App {
-  static OAUTH2_CLIENT = StromerOAuth2Client;
-  static OAUTH2_DEBUG = true;
-  static OAUTH2_MULTI_SESSION = false;
-  static OAUTH2_DRIVERS = ['stromer-bike'];
-
-  async onOAuth2Init() {
+class StromerApp extends Homey.App {
+  async onInit() {
     this.log('Stromer app has been initialized');
 
     this.homey.flow.getDeviceTriggerCard('battery_low')
@@ -55,7 +49,9 @@ class StromerApp extends OAuth2App {
     this.homey.flow.getActionCard('send_bike_notification')
       .registerRunListener(async (args) => {
         const device = args.device;
-        const message = `${device.getName()}: Battery ${device.getCapabilityValue('measure_battery')}%, Trip ${device.getCapabilityValue('stromer_trip_distance')}km`;
+        const battery = device.getCapabilityValue('measure_battery') || 0;
+        const tripDistance = device.getCapabilityValue('stromer_trip_distance') || 0;
+        const message = `${device.getName()}: Battery ${battery}%, Trip ${tripDistance}km`;
         await this.homey.notifications.createNotification({
           excerpt: message
         });

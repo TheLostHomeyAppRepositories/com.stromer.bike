@@ -28,8 +28,7 @@ async function validateApp() {
       'app.js',
       'package.json',
       '.homeycompose/app.json',
-      'lib/StromerOAuth2Client.js',
-      'lib/StromerOAuth2Token.js',
+      'lib/StromerAPI.js',
       'drivers/stromer-bike/driver.js',
       'drivers/stromer-bike/device.js',
       'drivers/stromer-bike/driver.compose.json'
@@ -70,8 +69,7 @@ async function validateApp() {
     console.log('6. Validating syntax (JavaScript files)...');
     const jsFiles = [
       'app.js',
-      'lib/StromerOAuth2Client.js',
-      'lib/StromerOAuth2Token.js',
+      'lib/StromerAPI.js',
       'drivers/stromer-bike/driver.js',
       'drivers/stromer-bike/device.js'
     ];
