@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script type="text/javascript" src="/homey.js"></script>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -52,35 +53,33 @@
   <div class="error" id="error"></div>
 
   <script>
-    function onHomeyReady(Homey) {
-      const clientIdInput = document.getElementById('client_id');
-      const errorDiv = document.getElementById('error');
+    const clientIdInput = document.getElementById('client_id');
+    const errorDiv = document.getElementById('error');
 
-      Homey.setTitle('Enter Client ID');
+    Homey.setTitle('Enter Client ID');
 
-      Homey.on('nextView', async (callback) => {
-        errorDiv.style.display = 'none';
-        
-        const client_id = clientIdInput.value.trim();
+    Homey.on('nextView', (callback) => {
+      errorDiv.style.display = 'none';
+      
+      const client_id = clientIdInput.value.trim();
 
-        if (!client_id) {
-          errorDiv.textContent = 'Client ID is required';
+      if (!client_id) {
+        errorDiv.textContent = 'Client ID is required';
+        errorDiv.style.display = 'block';
+        return callback(false);
+      }
+
+      Homey.emit('set_client_id', { client_id }, (err, result) => {
+        if (err) {
+          errorDiv.textContent = err.message || 'Failed to validate Client ID';
           errorDiv.style.display = 'block';
           return callback(false);
         }
-
-        try {
-          await Homey.emit('set_client_id', { client_id });
-          callback(true);
-        } catch (error) {
-          errorDiv.textContent = error.message || 'Failed to validate Client ID';
-          errorDiv.style.display = 'block';
-          callback(false);
-        }
+        callback(true);
       });
+    });
 
-      Homey.ready();
-    }
+    Homey.ready();
   </script>
 </body>
 </html>
