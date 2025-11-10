@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/stromer-homey/stromer-homey",
   "dependencies": {
-    "homey-oauth2app": "^3.7.2",
     "node-fetch": "^2.7.0"
   }
 }

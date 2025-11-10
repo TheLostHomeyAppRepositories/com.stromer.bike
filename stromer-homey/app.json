@@ -41,6 +41,49 @@
   "support": "https://github.com/stromer-homey/support",
   "homeyCommunityTopicId": 0,
   "source": "https://github.com/stromer-homey/stromer-homey",
+  "settings": [
+    {
+      "type": "group",
+      "title": {
+        "en": "Stromer Account"
+      },
+      "children": [
+        {
+          "id": "stromer_email",
+          "type": "text",
+          "title": {
+            "en": "Email"
+          },
+          "value": "",
+          "hint": {
+            "en": "Your Stromer account email address"
+          }
+        },
+        {
+          "id": "stromer_password",
+          "type": "password",
+          "title": {
+            "en": "Password"
+          },
+          "value": "",
+          "hint": {
+            "en": "Your Stromer account password (stored securely and only used to obtain authentication tokens)"
+          }
+        },
+        {
+          "id": "stromer_client_id",
+          "type": "text",
+          "title": {
+            "en": "Client ID"
+          },
+          "value": "",
+          "hint": {
+            "en": "Stromer API Client ID (obtained via MITM interception - see documentation)"
+          }
+        }
+      ]
+    }
+  ],
   "flow": {
     "triggers": [
       {
@@ -485,6 +528,11 @@
         "en": "Stromer Bike"
       },
       "class": "other",
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
       "capabilities": [
         "measure_battery",
         "stromer_battery_health",
@@ -529,31 +577,6 @@
       },
       "pair": [
         {
-          "id": "login_credentials",
-          "template": "login_credentials",
-          "options": {
-            "title": {
-              "en": "Login to Stromer"
-            },
-            "usernameLabel": {
-              "en": "Email"
-            },
-            "usernamePlaceholder": {
-              "en": "your@email.com"
-            },
-            "passwordLabel": {
-              "en": "Password"
-            },
-            "passwordPlaceholder": {
-              "en": "Password"
-            }
-          }
-        },
-        {
-          "id": "login_oauth2",
-          "template": "login_oauth2"
-        },
-        {
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
@@ -563,6 +586,12 @@
         {
           "id": "add_devices",
           "template": "add_devices"
+        }
+      ],
+      "repair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices"
         }
       ],
       "settings": [
@@ -629,6 +658,29 @@
     }
   ],
   "capabilities": {
+    "alarm_theft": {
+      "type": "boolean",
+      "title": {
+        "en": "Theft Alarm",
+        "nl": "Diefstal Alarm"
+      },
+      "desc": {
+        "en": "Indicates whether the bike's theft alarm is active",
+        "nl": "Geeft aan of het fiets diefstal alarm actief is"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Theft alarm activated",
+        "nl": "Diefstal alarm geactiveerd"
+      },
+      "insightsTitleFalse": {
+        "en": "Theft alarm deactivated",
+        "nl": "Diefstal alarm gedeactiveerd"
+      }
+    },
     "stromer_assistance_level": {
       "type": "number",
       "title": {
@@ -638,7 +690,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/assistance.svg",
       "min": 0,
       "max": 3,
       "insights": true,
@@ -656,7 +707,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/speed.svg",
       "min": 0,
       "insights": true,
       "chartType": "spline"
@@ -673,7 +723,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/energy.svg",
       "min": 0,
       "insights": true,
       "chartType": "spline"
@@ -690,7 +739,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/battery_health.svg",
       "min": 0,
       "max": 100,
       "insights": true,
@@ -708,7 +756,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/temperature.svg",
       "insights": true,
       "chartType": "spline"
     },
@@ -724,7 +771,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/speed.svg",
       "min": 0,
       "insights": true,
       "chartType": "spline"
@@ -741,7 +787,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/speed.svg",
       "min": 0,
       "insights": true,
       "chartType": "spline"
@@ -758,7 +803,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/speed.svg",
       "min": 0,
       "insights": true,
       "chartType": "spline"
@@ -775,7 +819,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/distance.svg",
       "min": 0,
       "insights": true,
       "chartType": "stepLine"
@@ -789,7 +832,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/location.svg",
       "insights": false
     },
     "stromer_lifetime_total_km": {
@@ -804,7 +846,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/distance.svg",
       "min": 0,
       "insights": true,
       "chartType": "stepLine"
@@ -818,7 +859,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/location.svg",
       "insights": false
     },
     "stromer_month_avg_speed": {
@@ -833,7 +873,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/speed.svg",
       "min": 0,
       "insights": true,
       "chartType": "spline"
@@ -850,7 +889,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/distance.svg",
       "min": 0,
       "insights": true,
       "chartType": "stepLine"
@@ -867,7 +905,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/temperature.svg",
       "insights": true,
       "chartType": "spline"
     },
@@ -883,7 +920,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/distance.svg",
       "min": 0,
       "insights": true,
       "chartType": "stepLine"
@@ -900,7 +936,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/distance.svg",
       "min": 0,
       "insights": true,
       "chartType": "stepLine"
@@ -917,7 +952,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/speed.svg",
       "min": 0,
       "insights": true,
       "chartType": "spline"
@@ -934,7 +968,6 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "/assets/distance.svg",
       "min": 0,
       "insights": true,
       "chartType": "stepLine"
