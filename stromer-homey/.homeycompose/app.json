@@ -43,14 +43,14 @@
   "settings": [
     {
       "type": "group",
-      "title": {
+      "label": {
         "en": "Stromer Account"
       },
       "children": [
         {
           "id": "stromer_email",
           "type": "text",
-          "title": {
+          "label": {
             "en": "Email"
           },
           "value": "",
@@ -61,7 +61,7 @@
         {
           "id": "stromer_password",
           "type": "password",
-          "title": {
+          "label": {
             "en": "Password"
           },
           "value": "",
@@ -72,7 +72,7 @@
         {
           "id": "stromer_client_id",
           "type": "text",
-          "title": {
+          "label": {
             "en": "Client ID"
           },
           "value": "",
