@@ -41,61 +41,6 @@
   "support": "https://github.com/stromer-homey/support",
   "homeyCommunityTopicId": 0,
   "source": "https://github.com/stromer-homey/stromer-homey",
-  "settings": [
-    {
-      "type": "group",
-      "label": {
-        "en": "Stromer Account"
-      },
-      "title": {
-        "en": "Stromer Account"
-      },
-      "children": [
-        {
-          "id": "stromer_email",
-          "type": "text",
-          "label": {
-            "en": "Email"
-          },
-          "title": {
-            "en": "Email"
-          },
-          "value": "",
-          "hint": {
-            "en": "Your Stromer account email address"
-          }
-        },
-        {
-          "id": "stromer_password",
-          "type": "password",
-          "label": {
-            "en": "Password"
-          },
-          "title": {
-            "en": "Password"
-          },
-          "value": "",
-          "hint": {
-            "en": "Your Stromer account password (stored securely and only used to obtain authentication tokens)"
-          }
-        },
-        {
-          "id": "stromer_client_id",
-          "type": "text",
-          "label": {
-            "en": "Client ID"
-          },
-          "title": {
-            "en": "Client ID"
-          },
-          "value": "",
-          "hint": {
-            "en": "Stromer API Client ID (obtained via MITM interception - see documentation)"
-          }
-        }
-      ]
-    }
-  ],
   "flow": {
     "triggers": [
       {

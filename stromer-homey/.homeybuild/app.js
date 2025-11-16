@@ -115,12 +115,24 @@ class StromerApp extends Homey.App {
         }
 
         settingsTimeout = this.homey.setTimeout(async () => {
+          const password = this.homey.settings.get('stromer_password');
+          
+          if (password === '') {
+            this.homey.settings.unset('stromer_password');
+            this.log('Password explicitly cleared by user');
+            await this.homey.notifications.createNotification({
+              excerpt: 'Stromer password cleared successfully.'
+            });
+            settingsTimeout = null;
+            return;
+          }
+          
           this.log('Stromer credentials updated, re-authenticating...');
           try {
             await this.authService.authenticateFromSettings();
             
-            const password = this.homey.settings.get('stromer_password');
-            if (password) {
+            const currentPassword = this.homey.settings.get('stromer_password');
+            if (currentPassword) {
               this.homey.settings.unset('stromer_password');
               this.log('Password cleared after successful authentication');
             }
