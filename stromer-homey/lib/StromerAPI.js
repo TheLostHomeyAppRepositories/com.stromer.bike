@@ -30,22 +30,62 @@ class StromerAPI {
       ? `${this.baseUrl}/mobile/v4/o/token/`
       : `${this.baseUrl}/o/token/`;
 
+    this.log('[StromerAPI] DEBUG: Authentication request details:');
+    this.log(`  - API Version: ${apiVersion}`);
+    this.log(`  - Login URL: ${loginUrl}`);
+    this.log(`  - Username: ${username}`);
+    this.log(`  - Client ID: ${clientId}`);
+    this.log(`  - Password: ${password ? '***' + password.slice(-3) : 'NOT SET'}`);
+
     try {
+      const loginPayload = {
+        username: username,
+        password: password
+      };
+      
+      this.log('[StromerAPI] DEBUG: Sending login request...');
+      
       const loginResponse = await fetch(loginUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          username: username,
-          password: password
-        }),
+        body: JSON.stringify(loginPayload),
       });
 
+      this.log(`[StromerAPI] DEBUG: Login response status: ${loginResponse.status} ${loginResponse.statusText}`);
+      this.log('[StromerAPI] DEBUG: Login response headers:', Object.fromEntries(loginResponse.headers.entries()));
+
       if (!loginResponse.ok) {
-        const error = await loginResponse.json().catch(() => ({}));
-        throw new Error(error.error || `Login failed with status ${loginResponse.status}`);
+        const errorText = await loginResponse.text();
+        this.error('[StromerAPI] DEBUG: Login failed response body:', errorText);
+        
+        let error;
+        try {
+          error = JSON.parse(errorText);
+        } catch (e) {
+          error = { error: errorText || `HTTP ${loginResponse.status}` };
+        }
+        
+        let errorMessage = error.error || error.message || `Login failed with status ${loginResponse.status}`;
+        
+        if (loginResponse.status === 403) {
+          errorMessage = `Authentication rejected (403): This usually means wrong password, locked account, or invalid API credentials. Please verify:\n` +
+            `  1. Your Stromer password is correct\n` +
+            `  2. Your account is not locked (try logging into stromer-portal.ch)\n` +
+            `  3. Client ID is current (may need to capture fresh one from mobile app)\n` +
+            `  Original error: ${errorMessage}`;
+        } else if (loginResponse.status === 401) {
+          errorMessage = `Invalid credentials (401): Wrong username or password. Original error: ${errorMessage}`;
+        } else if (loginResponse.status === 429) {
+          errorMessage = `Rate limit exceeded (429): Too many login attempts. Please wait a few minutes. Original error: ${errorMessage}`;
+        }
+        
+        throw new Error(errorMessage);
       }
+      
+      const loginData = await loginResponse.json();
+      this.log('[StromerAPI] DEBUG: Login successful, received:', Object.keys(loginData));
 
       const tokenBody = {
         grant_type: 'password',
@@ -58,6 +98,11 @@ class StromerAPI {
         tokenBody.client_secret = clientSecret;
       }
 
+      this.log('[StromerAPI] DEBUG: Requesting OAuth token...');
+      this.log(`  - Token URL: ${tokenUrl}`);
+      this.log(`  - Grant type: password`);
+      this.log(`  - Client ID: ${clientId}`);
+
       const tokenResponse = await fetch(tokenUrl, {
         method: 'POST',
         headers: {
@@ -66,12 +111,34 @@ class StromerAPI {
         body: JSON.stringify(tokenBody),
       });
 
+      this.log(`[StromerAPI] DEBUG: Token response status: ${tokenResponse.status} ${tokenResponse.statusText}`);
+      this.log('[StromerAPI] DEBUG: Token response headers:', Object.fromEntries(tokenResponse.headers.entries()));
+
       if (!tokenResponse.ok) {
-        const error = await tokenResponse.json().catch(() => ({}));
-        throw new Error(error.error_description || error.error || `Token request failed with status ${tokenResponse.status}`);
+        const errorText = await tokenResponse.text();
+        this.error('[StromerAPI] DEBUG: Token request failed response body:', errorText);
+        
+        let error;
+        try {
+          error = JSON.parse(errorText);
+        } catch (e) {
+          error = { error: errorText || `HTTP ${tokenResponse.status}` };
+        }
+        
+        let errorMessage = error.error_description || error.error || `Token request failed with status ${tokenResponse.status}`;
+        
+        if (tokenResponse.status === 403 || tokenResponse.status === 401) {
+          errorMessage = `OAuth token rejected (${tokenResponse.status}): Invalid client_id. The client_id may have expired or been rotated by Stromer. ` +
+            `You need to capture a fresh client_id from the official Stromer mobile app using MITM. Original error: ${errorMessage}`;
+        } else if (tokenResponse.status === 400) {
+          errorMessage = `Invalid OAuth request (400): ${errorMessage}. This could indicate API version mismatch or malformed request.`;
+        }
+        
+        throw new Error(errorMessage);
       }
 
       const tokenData = await tokenResponse.json();
+      this.log('[StromerAPI] DEBUG: Token received successfully');
       
       this.tokens = {
         access_token: tokenData.access_token,
