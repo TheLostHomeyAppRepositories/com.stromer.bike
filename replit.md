@@ -13,7 +13,19 @@ Preferred communication style: Simple, everyday language.
 The application is built on **Homey SDK v3**, utilizing a custom authentication implementation due to Stromer's specific username/password-based OAuth2 token acquisition, which deviates from standard OAuth2 redirect flows.
 
 ### Authentication
-The app employs **app-level centralized authentication**, where users provide Stromer credentials once in the App Settings. These credentials are used to obtain OAuth2 tokens, which are then persisted and shared across all bike devices. Passwords are automatically cleared after successful authentication, enhancing security. A `StromerAuthService` singleton manages token refresh with a mutex for thread-safety, ensuring continuous and secure API access.
+The app employs **app-level centralized authentication**, where users provide Stromer credentials once in the App Settings. The authentication flow implements OAuth2 authorization code grant with Django CSRF protection, mirroring the Home Assistant Stromer integration:
+
+1. **GET login page** → Extract CSRF token and session cookie from Set-Cookie headers
+2. **POST credentials** with form-encoded data, csrfmiddlewaretoken, Referer header, and full cookie jar
+3. **Follow redirect** to OAuth authorization endpoint with preserved session cookies
+4. **Extract authorization code** from redirect Location header
+5. **Exchange code for access token** using form-encoded data
+
+**API Version Differences:**
+- **v4** (client_id only): Uses `redirect_url=stromerauth://auth` for authorization, `redirect_uri=stromer://auth` for token exchange
+- **v3** (client_id + client_secret): Uses `redirect_uri=stromerauth://auth` for both steps
+
+All OAuth requests use `application/x-www-form-urlencoded` (not JSON). Session and CSRF cookies are maintained throughout the flow using a cookie jar. Passwords are automatically cleared after successful authentication, and a `StromerAuthService` singleton manages token refresh with thread-safety.
 
 ### Device Pairing
 Pairing is streamlined: users configure credentials in App Settings, and then during device pairing, they simply select their bikes from a list enumerated by the `StromerAuthService`. This eliminates redundant credential entry for multiple bikes.
@@ -40,13 +52,32 @@ The architecture includes:
 - Setting devices as unavailable on persistent failures.
 - Graceful degradation to ensure continued operation even with partial data.
 
+## Recent Changes
+
+### November 16, 2025: Authentication Flow Rewrite
+**CRITICAL FIX**: Completely rewrote authentication to match Home Assistant's working implementation after debugging 403 CSRF errors.
+
+**Root Cause**: Original implementation used direct JSON POST without CSRF tokens or session cookies, causing Django CSRF verification failures.
+
+**Solution**: Implemented proper OAuth2 authorization code flow with:
+- CSRF token extraction from cookies using robust parsing (`headers.raw?.()['set-cookie'] ?? []`)
+- Session cookie preservation throughout entire auth flow
+- Form-encoded data (`application/x-www-form-urlencoded`) instead of JSON
+- Referer header for Django CSRF compliance
+- Correct redirect parameter names: v4 uses `redirect_url` for auth + `redirect_uri` for token; v3 uses `redirect_uri` for both
+- Password masking in debug logs (shows only last 3 characters)
+
+**Reference**: Implementation mirrors [CoMPaTech/stromer](https://github.com/CoMPaTech/stromer) Home Assistant integration line-by-line.
+
 ## External Dependencies
 
 ### Stromer API
 - **Base URL**: `https://api3.stromer-portal.ch`
-- **Authentication**: Username/password for OAuth2 tokens (v4 API endpoint: `/mobile/v4/login/`).
-- **Key Endpoints**: Authentication, token refresh, bike enumeration, telemetry (battery, location, speed, temperature), and bike control (lights, lock).
-- **Note**: `client_id` for API credentials must be obtained via MITM interception of the official Stromer mobile app.
+- **Authentication**: OAuth2 authorization code grant with Django CSRF protection
+- **v4 endpoints**: `/mobile/v4/login/`, `/mobile/v4/o/authorize/`, `/mobile/v4/o/token/`
+- **v3 endpoints**: `/users/login/`, `/o/authorize/`, `/o/token/`
+- **Data endpoints**: `/rapi/mobile/v4.1/` (v4) or `/rapi/mobile/v2/` (v3)
+- **Note**: `client_id` must be obtained via MITM interception of official Stromer mobile app; `client_secret` only needed for v3
 
 ### NPM Packages
 - **node-fetch**: Used for HTTP API requests.
