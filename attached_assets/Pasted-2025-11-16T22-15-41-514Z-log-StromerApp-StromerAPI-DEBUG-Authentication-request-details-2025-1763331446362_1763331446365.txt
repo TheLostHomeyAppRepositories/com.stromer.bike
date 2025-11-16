@@ -1,0 +1,152 @@
+2025-11-16T22:15:41.514Z [log] [StromerApp] [StromerAPI] DEBUG: Authentication request details:
+2025-11-16T22:15:41.514Z [log] [StromerApp]   - API Version: v4
+2025-11-16T22:15:41.515Z [log] [StromerApp]   - Login URL: https://api3.stromer-portal.ch/mobile/v4/login/
+2025-11-16T22:15:41.515Z [log] [StromerApp]   - Username: woutdool@gmail.com
+2025-11-16T22:15:41.516Z [log] [StromerApp]   - Client ID: 4P3VE9rBYdueKQioWb7nv7RJDU8EQsn2wiQaNqhG
+2025-11-16T22:15:41.516Z [log] [StromerApp]   - Password: ***hyr
+2025-11-16T22:15:41.516Z [log] [StromerApp] [StromerAPI] DEBUG: Sending login request...
+2025-11-16T22:15:41.748Z [log] [StromerApp] [StromerAPI] DEBUG: Login response status: 403 Forbidden
+2025-11-16T22:15:41.749Z [log] [StromerApp] [StromerAPI] DEBUG: Login response headers: {
+  connection: 'Keep-Alive',
+  'content-encoding': 'gzip',
+  'content-language': 'en',
+  'content-length': '1049',
+  'content-type': 'text/html; charset=utf-8',
+  date: 'Sun, 16 Nov 2025 22:15:41 GMT',
+  'keep-alive': 'timeout=5, max=100',
+  server: 'Apache/2.4.65 (Debian)',
+  vary: 'Authorization,origin,Accept-Language,Accept-Encoding',
+  'x-frame-options': 'DENY'
+}
+2025-11-16T22:15:41.752Z [log] [StromerApp] [ERROR] [StromerAPI] DEBUG: Login failed response body: 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="robots" content="NONE,NOARCHIVE">
+  <title>403 Forbidden</title>
+  <style type="text/css">
+    html * { padding:0; margin:0; }
+    body * { padding:10px 20px; }
+    body * * { padding:0; }
+    body { font:small sans-serif; background:#eee; color:#000; }
+    body>div { border-bottom:1px solid #ddd; }
+    h1 { font-weight:normal; margin-bottom:.4em; }
+    h1 span { font-size:60%; color:#666; font-weight:normal; }
+    #info { background:#f6f6f6; }
+    #info ul { margin: 0.5em 4em; }
+    #info p, #summary p { padding-top:10px; }
+    #summary { background: #ffc; }
+    #explanation { background:#eee; border-bottom: 0px none; }
+  </style>
+</head>
+<body>
+<div id="summary">
+  <h1>Forbidden <span>(403)</span></h1>
+  <p>CSRF verification failed. Request aborted.</p>
+
+  <p>You are seeing this message because this HTTPS site requires a “Referer header” to be sent by your web browser, but none was sent. This header is required for security reasons, to ensure that your browser is not being hijacked by third parties.</p>
+  <p>If you have configured your browser to disable “Referer” headers, please re-enable them, at least for this site, or for HTTPS connections, or for “same-origin” requests.</p>
+  <p>If you are using the &lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt; tag or including the “Referrer-Policy: no-referrer” header, please remove them. The CSRF protection requires the “Referer” header to do strict referer checking. If you’re concerned about privacy, use alternatives like &lt;a rel=&quot;noreferrer&quot; …&gt; for links to third-party sites.</p>
+
+
+</div>
+
+<div id="explanation">
+  <p><small>More information is available with DEBUG=True.</small></p>
+</div>
+
+</body>
+</html>
+
+2025-11-16T22:15:41.752Z [log] [StromerApp] [ERROR] [StromerAPI] Authentication failed: Authentication rejected (403): This usually means wrong password, locked account, or invalid API credentials. Please verify:
+  1. Your Stromer password is correct
+  2. Your account is not locked (try logging into stromer-portal.ch)
+  3. Client ID is current (may need to capture fresh one from mobile app)
+  Original error: 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="robots" content="NONE,NOARCHIVE">
+  <title>403 Forbidden</title>
+  <style type="text/css">
+    html * { padding:0; margin:0; }
+    body * { padding:10px 20px; }
+    body * * { padding:0; }
+    body { font:small sans-serif; background:#eee; color:#000; }
+    body>div { border-bottom:1px solid #ddd; }
+    h1 { font-weight:normal; margin-bottom:.4em; }
+    h1 span { font-size:60%; color:#666; font-weight:normal; }
+    #info { background:#f6f6f6; }
+    #info ul { margin: 0.5em 4em; }
+    #info p, #summary p { padding-top:10px; }
+    #summary { background: #ffc; }
+    #explanation { background:#eee; border-bottom: 0px none; }
+  </style>
+</head>
+<body>
+<div id="summary">
+  <h1>Forbidden <span>(403)</span></h1>
+  <p>CSRF verification failed. Request aborted.</p>
+
+  <p>You are seeing this message because this HTTPS site requires a “Referer header” to be sent by your web browser, but none was sent. This header is required for security reasons, to ensure that your browser is not being hijacked by third parties.</p>
+  <p>If you have configured your browser to disable “Referer” headers, please re-enable them, at least for this site, or for HTTPS connections, or for “same-origin” requests.</p>
+  <p>If you are using the &lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt; tag or including the “Referrer-Policy: no-referrer” header, please remove them. The CSRF protection requires the “Referer” header to do strict referer checking. If you’re concerned about privacy, use alternatives like &lt;a rel=&quot;noreferrer&quot; …&gt; for links to third-party sites.</p>
+
+
+</div>
+
+<div id="explanation">
+  <p><small>More information is available with DEBUG=True.</small></p>
+</div>
+
+</body>
+</html>
+
+2025-11-16T22:15:41.752Z [err] [ManagerDrivers] [Driver:stromer-bike] Error during pairing: Authentication rejected (403): This usually means wrong password, locked account, or invalid API credentials. Please verify:
+  1. Your Stromer password is correct
+  2. Your account is not locked (try logging into stromer-portal.ch)
+  3. Client ID is current (may need to capture fresh one from mobile app)
+  Original error: 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="robots" content="NONE,NOARCHIVE">
+  <title>403 Forbidden</title>
+  <style type="text/css">
+    html * { padding:0; margin:0; }
+    body * { padding:10px 20px; }
+    body * * { padding:0; }
+    body { font:small sans-serif; background:#eee; color:#000; }
+    body>div { border-bottom:1px solid #ddd; }
+    h1 { font-weight:normal; margin-bottom:.4em; }
+    h1 span { font-size:60%; color:#666; font-weight:normal; }
+    #info { background:#f6f6f6; }
+    #info ul { margin: 0.5em 4em; }
+    #info p, #summary p { padding-top:10px; }
+    #summary { background: #ffc; }
+    #explanation { background:#eee; border-bottom: 0px none; }
+  </style>
+</head>
+<body>
+<div id="summary">
+  <h1>Forbidden <span>(403)</span></h1>
+  <p>CSRF verification failed. Request aborted.</p>
+
+  <p>You are seeing this message because this HTTPS site requires a “Referer header” to be sent by your web browser, but none was sent. This header is required for security reasons, to ensure that your browser is not being hijacked by third parties.</p>
+  <p>If you have configured your browser to disable “Referer” headers, please re-enable them, at least for this site, or for HTTPS connections, or for “same-origin” requests.</p>
+  <p>If you are using the &lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt; tag or including the “Referrer-Policy: no-referrer” header, please remove them. The CSRF protection requires the “Referer” header to do strict referer checking. If you’re concerned about privacy, use alternatives like &lt;a rel=&quot;noreferrer&quot; …&gt; for links to third-party sites.</p>
+
+
+</div>
+
+<div id="explanation">
+  <p><small>More information is available with DEBUG=True.</small></p>
+</div>
+
+</body>
+</html>
+
+
