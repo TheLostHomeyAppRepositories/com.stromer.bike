@@ -30,115 +30,163 @@ class StromerAPI {
       ? `${this.baseUrl}/mobile/v4/o/token/`
       : `${this.baseUrl}/o/token/`;
 
-    this.log('[StromerAPI] DEBUG: Authentication request details:');
+    this.log('[StromerAPI] Starting authentication with CSRF token flow');
     this.log(`  - API Version: ${apiVersion}`);
-    this.log(`  - Login URL: ${loginUrl}`);
     this.log(`  - Username: ${username}`);
     this.log(`  - Client ID: ${clientId}`);
     this.log(`  - Password: ${password ? '***' + password.slice(-3) : 'NOT SET'}`);
 
     try {
-      const loginPayload = {
-        username: username,
-        password: password
-      };
-      
-      this.log('[StromerAPI] DEBUG: Sending login request...');
-      
-      const loginResponse = await fetch(loginUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginPayload),
+      this.log('[StromerAPI] Step 1: GET login page to obtain CSRF token and session');
+      const getResponse = await fetch(loginUrl, {
+        method: 'GET',
+        redirect: 'manual'
       });
 
-      this.log(`[StromerAPI] DEBUG: Login response status: ${loginResponse.status} ${loginResponse.statusText}`);
-      this.log('[StromerAPI] DEBUG: Login response headers:', Object.fromEntries(loginResponse.headers.entries()));
-
-      if (!loginResponse.ok) {
-        const errorText = await loginResponse.text();
-        this.error('[StromerAPI] DEBUG: Login failed response body:', errorText);
-        
-        let error;
-        try {
-          error = JSON.parse(errorText);
-        } catch (e) {
-          error = { error: errorText || `HTTP ${loginResponse.status}` };
+      const rawSetCookies = getResponse.headers.raw?.()['set-cookie'] ?? [];
+      if (rawSetCookies.length === 0) {
+        const singleCookie = getResponse.headers.get('set-cookie');
+        if (singleCookie) {
+          rawSetCookies.push(singleCookie);
         }
-        
-        let errorMessage = error.error || error.message || `Login failed with status ${loginResponse.status}`;
-        
-        if (loginResponse.status === 403) {
-          errorMessage = `Authentication rejected (403): This usually means wrong password, locked account, or invalid API credentials. Please verify:\n` +
-            `  1. Your Stromer password is correct\n` +
-            `  2. Your account is not locked (try logging into stromer-portal.ch)\n` +
-            `  3. Client ID is current (may need to capture fresh one from mobile app)\n` +
-            `  Original error: ${errorMessage}`;
-        } else if (loginResponse.status === 401) {
-          errorMessage = `Invalid credentials (401): Wrong username or password. Original error: ${errorMessage}`;
-        } else if (loginResponse.status === 429) {
-          errorMessage = `Rate limit exceeded (429): Too many login attempts. Please wait a few minutes. Original error: ${errorMessage}`;
-        }
-        
-        throw new Error(errorMessage);
       }
       
-      const loginData = await loginResponse.json();
-      this.log('[StromerAPI] DEBUG: Login successful, received:', Object.keys(loginData));
-
-      const tokenBody = {
-        grant_type: 'password',
-        username: username,
-        password: password,
-        client_id: clientId
-      };
-
-      if (clientSecret) {
-        tokenBody.client_secret = clientSecret;
+      if (rawSetCookies.length === 0) {
+        throw new Error('No Set-Cookie header received from login page');
       }
 
-      this.log('[StromerAPI] DEBUG: Requesting OAuth token...');
-      this.log(`  - Token URL: ${tokenUrl}`);
-      this.log(`  - Grant type: password`);
-      this.log(`  - Client ID: ${clientId}`);
+      const cookieJar = {};
+      for (const cookieHeader of rawSetCookies) {
+        const match = cookieHeader.match(/^([^=]+)=([^;]+)/);
+        if (match) {
+          cookieJar[match[1]] = match[2];
+        }
+      }
+
+      if (!cookieJar.csrftoken) {
+        throw new Error('CSRF token not found in Set-Cookie header');
+      }
+      const csrftoken = cookieJar.csrftoken;
+      this.log(`[StromerAPI] Cookies extracted: ${Object.keys(cookieJar).join(', ')}`);
+
+      const oauthParams = new URLSearchParams({
+        client_id: clientId,
+        response_type: 'code',
+        scope: 'bikeposition bikestatus bikeconfiguration bikelock biketheft bikedata bikepin bikeblink userprofile'
+      });
+
+      if (apiVersion === 'v4') {
+        oauthParams.append('redirect_url', 'stromerauth://auth');
+      } else {
+        oauthParams.append('redirect_uri', 'stromerauth://auth');
+      }
+
+      const nextUrl = apiVersion === 'v4'
+        ? `/mobile/v4/o/authorize/?${oauthParams.toString()}`
+        : `/o/authorize/?${oauthParams.toString()}`;
+
+      const formData = new URLSearchParams({
+        username: username,
+        password: password,
+        csrfmiddlewaretoken: csrftoken,
+        next: nextUrl
+      });
+
+      const cookieString = Object.entries(cookieJar).map(([k, v]) => `${k}=${v}`).join('; ');
+
+      this.log('[StromerAPI] Step 2: POST credentials with CSRF token and session');
+      const postResponse = await fetch(loginUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Referer': loginUrl,
+          'Cookie': cookieString
+        },
+        body: formData.toString(),
+        redirect: 'manual'
+      });
+
+      const rawPostCookies = postResponse.headers.raw?.()['set-cookie'] ?? [];
+      if (rawPostCookies.length === 0) {
+        const singleCookie = postResponse.headers.get('set-cookie');
+        if (singleCookie) {
+          rawPostCookies.push(singleCookie);
+        }
+      }
+      
+      for (const cookieHeader of rawPostCookies) {
+        const match = cookieHeader.match(/^([^=]+)=([^;]+)/);
+        if (match) {
+          cookieJar[match[1]] = match[2];
+        }
+      }
+      
+      if (rawPostCookies.length > 0) {
+        this.log(`[StromerAPI] Updated cookies: ${Object.keys(cookieJar).join(', ')}`);
+      }
+
+      const nextLocation = postResponse.headers.get('location');
+      if (!nextLocation) {
+        const errorBody = await postResponse.text();
+        this.error('[StromerAPI] No redirect after login. Response:', errorBody.substring(0, 500));
+        throw new Error('Authentication failed: No redirect location received. Check username/password.');
+      }
+
+      this.log(`[StromerAPI] Step 3: Follow redirect to authorization endpoint`);
+      const authorizeUrl = nextLocation.startsWith('http') 
+        ? nextLocation 
+        : `${this.baseUrl}${nextLocation}`;
+
+      const updatedCookieString = Object.entries(cookieJar).map(([k, v]) => `${k}=${v}`).join('; ');
+
+      const authorizeResponse = await fetch(authorizeUrl, {
+        method: 'GET',
+        headers: {
+          'Cookie': updatedCookieString
+        },
+        redirect: 'manual'
+      });
+
+      const codeLocation = authorizeResponse.headers.get('location');
+      if (!codeLocation) {
+        throw new Error('No authorization code redirect received');
+      }
+
+      const codeMatch = codeLocation.match(/[?&]code=([^&]+)/);
+      if (!codeMatch) {
+        throw new Error('Authorization code not found in redirect URL');
+      }
+      const authCode = codeMatch[1];
+      this.log(`[StromerAPI] Authorization code obtained: ${authCode.substring(0, 8)}...`);
+
+      this.log('[StromerAPI] Step 4: Exchange authorization code for access token');
+      const tokenFormData = new URLSearchParams({
+        grant_type: 'authorization_code',
+        client_id: clientId,
+        code: authCode,
+        redirect_uri: apiVersion === 'v4' ? 'stromer://auth' : 'stromerauth://auth'
+      });
+
+      if (clientSecret) {
+        tokenFormData.append('client_secret', clientSecret);
+      }
 
       const tokenResponse = await fetch(tokenUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify(tokenBody),
+        body: tokenFormData.toString()
       });
-
-      this.log(`[StromerAPI] DEBUG: Token response status: ${tokenResponse.status} ${tokenResponse.statusText}`);
-      this.log('[StromerAPI] DEBUG: Token response headers:', Object.fromEntries(tokenResponse.headers.entries()));
 
       if (!tokenResponse.ok) {
         const errorText = await tokenResponse.text();
-        this.error('[StromerAPI] DEBUG: Token request failed response body:', errorText);
-        
-        let error;
-        try {
-          error = JSON.parse(errorText);
-        } catch (e) {
-          error = { error: errorText || `HTTP ${tokenResponse.status}` };
-        }
-        
-        let errorMessage = error.error_description || error.error || `Token request failed with status ${tokenResponse.status}`;
-        
-        if (tokenResponse.status === 403 || tokenResponse.status === 401) {
-          errorMessage = `OAuth token rejected (${tokenResponse.status}): Invalid client_id. The client_id may have expired or been rotated by Stromer. ` +
-            `You need to capture a fresh client_id from the official Stromer mobile app using MITM. Original error: ${errorMessage}`;
-        } else if (tokenResponse.status === 400) {
-          errorMessage = `Invalid OAuth request (400): ${errorMessage}. This could indicate API version mismatch or malformed request.`;
-        }
-        
-        throw new Error(errorMessage);
+        this.error('[StromerAPI] Token exchange failed:', errorText);
+        throw new Error(`Token exchange failed (${tokenResponse.status}): ${errorText.substring(0, 200)}`);
       }
 
       const tokenData = await tokenResponse.json();
-      this.log('[StromerAPI] DEBUG: Token received successfully');
+      this.log('[StromerAPI] Access token received successfully');
       
       this.tokens = {
         access_token: tokenData.access_token,
@@ -167,26 +215,32 @@ class StromerAPI {
       : `${this.baseUrl}/o/token/`;
 
     try {
-      const tokenBody = {
+      const tokenFormData = new URLSearchParams({
         grant_type: 'refresh_token',
         refresh_token: this.tokens.refresh_token,
         client_id: this.clientId
-      };
+      });
 
       if (this.clientSecret) {
-        tokenBody.client_secret = this.clientSecret;
+        tokenFormData.append('client_secret', this.clientSecret);
       }
 
       const tokenResponse = await fetch(tokenUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(tokenBody),
+        body: tokenFormData.toString(),
       });
 
       if (!tokenResponse.ok) {
-        const error = await tokenResponse.json().catch(() => ({}));
+        const errorText = await tokenResponse.text();
+        let error;
+        try {
+          error = JSON.parse(errorText);
+        } catch (e) {
+          error = { error: errorText };
+        }
         throw new Error(error.error_description || error.error || 'Token refresh failed');
       }
 
