@@ -317,37 +317,52 @@ class StromerAPI {
   }
 
   async getBikes() {
-    const data = await this.apiCall('/rapi/mobile/v2/bike/');
-    return data || [];
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
+    const endpoint = `/rapi/mobile/${apiVersion}/bike/`;
+    const response = await this.apiCall(endpoint);
+    
+    if (response && response.data && Array.isArray(response.data)) {
+      return response.data;
+    }
+    
+    this.error('[StromerAPI] Unexpected bike list response format:', response);
+    return [];
   }
 
   async getBikeState(bikeId) {
-    return await this.apiCall(`/rapi/mobile/v2/bike/${bikeId}/state/`);
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
+    const response = await this.apiCall(`/rapi/mobile/${apiVersion}/bike/${bikeId}/state/`);
+    return response?.data?.[0] || response;
   }
 
   async getBikePosition(bikeId) {
-    return await this.apiCall(`/rapi/mobile/v2/bike/${bikeId}/position/`);
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
+    const response = await this.apiCall(`/rapi/mobile/${apiVersion}/bike/${bikeId}/position/`);
+    return response?.data?.[0] || response;
   }
 
   async setBikeLock(bikeId, lock) {
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
     return await this.apiCall(
-      `/rapi/mobile/v2/bike/${bikeId}/lock/`,
+      `/rapi/mobile/${apiVersion}/bike/${bikeId}/lock/`,
       'PUT',
       { lock: lock ? 'true' : 'false' }
     );
   }
 
   async setBikeLight(bikeId, mode) {
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
     return await this.apiCall(
-      `/rapi/mobile/v2/bike/${bikeId}/light/`,
+      `/rapi/mobile/${apiVersion}/bike/${bikeId}/light/`,
       'PUT',
       { mode: mode }
     );
   }
 
   async resetTripData(bikeId) {
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
     return await this.apiCall(
-      `/rapi/mobile/v2/bike/${bikeId}/trip_data/`,
+      `/rapi/mobile/${apiVersion}/bike/${bikeId}/trip_data/`,
       'DELETE'
     );
   }
