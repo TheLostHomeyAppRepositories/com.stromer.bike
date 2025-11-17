@@ -1,11 +1,11 @@
 {
   "type": "number",
   "title": {
-    "en": "Longitude"
+    "en": "Power Cycles"
   },
-  "decimals": 6,
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "insights": false
+  "icon": "/assets/power.svg",
+  "insights": true
 }

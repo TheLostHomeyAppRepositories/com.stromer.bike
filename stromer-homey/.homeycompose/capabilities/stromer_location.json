@@ -1,11 +1,10 @@
 {
-  "type": "number",
+  "type": "string",
   "title": {
-    "en": "Latitude"
+    "en": "Location"
   },
-  "decimals": 6,
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "insights": false
+  "icon": "/assets/location.svg"
 }

@@ -1,16 +1,15 @@
 {
   "type": "number",
   "title": {
-    "en": "Current Speed"
+    "en": "Atmospheric Pressure"
   },
   "units": {
-    "en": "km/h"
+    "en": "hPa"
   },
   "decimals": 1,
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "min": 0,
-  "insights": true,
-  "chartType": "spline"
+  "icon": "/assets/pressure.svg",
+  "insights": true
 }

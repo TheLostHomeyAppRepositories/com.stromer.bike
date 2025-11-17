@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "User Total Distance"
+  },
+  "units": {
+    "en": "km"
+  },
+  "decimals": 1,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/distance.svg",
+  "insights": true
+}
