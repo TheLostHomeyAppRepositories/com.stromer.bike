@@ -34,10 +34,6 @@ externalPort = 80
 localPort = 41893
 externalPort = 3000
 
-[[ports]]
-localPort = 43753
-externalPort = 3001
-
 [nix]
 channel = "stable-25_05"
 packages = ["imagemagick", "librsvg"]
