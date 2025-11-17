@@ -367,6 +367,64 @@ class StromerAPI {
     );
   }
 
+  async getYearStatistics(bikeId) {
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
+    const currentYear = new Date().getFullYear();
+    try {
+      const response = await this.apiCall(
+        `/rapi/mobile/${apiVersion}/bike/${bikeId}/statistics/${currentYear}/1/`
+      );
+      return response?.data?.[0] || response;
+    } catch (error) {
+      this.error(`[StromerAPI] Failed to get year statistics:`, error.message);
+      return null;
+    }
+  }
+
+  async getMonthStatistics(bikeId) {
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    try {
+      const response = await this.apiCall(
+        `/rapi/mobile/${apiVersion}/bike/${bikeId}/statistics/${year}/${month}/1/`
+      );
+      return response?.data?.[0] || response;
+    } catch (error) {
+      this.error(`[StromerAPI] Failed to get month statistics:`, error.message);
+      return null;
+    }
+  }
+
+  async getDayStatistics(bikeId) {
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    try {
+      const response = await this.apiCall(
+        `/rapi/mobile/${apiVersion}/bike/${bikeId}/statistics/${year}/${month}/${day}/1/`
+      );
+      return response?.data?.[0] || response;
+    } catch (error) {
+      this.error(`[StromerAPI] Failed to get day statistics:`, error.message);
+      return null;
+    }
+  }
+
+  async getBikeDetails(bikeId) {
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
+    try {
+      const response = await this.apiCall(`/rapi/mobile/${apiVersion}/bike/${bikeId}/`);
+      return response?.data?.[0] || response;
+    } catch (error) {
+      this.error(`[StromerAPI] Failed to get bike details:`, error.message);
+      return null;
+    }
+  }
+
   setTokens(tokens) {
     this.tokens = tokens;
   }
