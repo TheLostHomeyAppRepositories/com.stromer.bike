@@ -344,9 +344,9 @@ class StromerAPI {
   async setBikeLock(bikeId, lock) {
     const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
     return await this.apiCall(
-      `/rapi/mobile/${apiVersion}/bike/${bikeId}/lock/`,
-      'PUT',
-      { lock: lock ? 'true' : 'false' }
+      `/rapi/mobile/${apiVersion}/bike/${bikeId}/settings/`,
+      'POST',
+      { lock: lock }
     );
   }
 
@@ -354,7 +354,7 @@ class StromerAPI {
     const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
     return await this.apiCall(
       `/rapi/mobile/${apiVersion}/bike/${bikeId}/light/`,
-      'PUT',
+      'POST',
       { mode: mode }
     );
   }
@@ -362,7 +362,7 @@ class StromerAPI {
   async resetTripData(bikeId) {
     const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
     return await this.apiCall(
-      `/rapi/mobile/${apiVersion}/bike/${bikeId}/trip_data/`,
+      `/rapi/mobile/${apiVersion}/bike/id/${bikeId}/trip_data/`,
       'DELETE'
     );
   }

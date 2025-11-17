@@ -51,8 +51,10 @@ class StromerBikeDevice extends Homey.Device {
       this.activePollInterval = newSettings.active_poll_interval * 1000;
     }
 
-    this.stopPolling();
-    this.startPolling();
+    if (changedKeys.includes('poll_interval') || changedKeys.includes('active_poll_interval')) {
+      this.stopPolling();
+      this.startPolling();
+    }
   }
 
   startPolling() {
@@ -92,6 +94,9 @@ class StromerBikeDevice extends Homey.Device {
       if (!status && !position) {
         throw new Error('Failed to fetch bike data');
       }
+
+      this.log('[DEBUG] Raw API status response:', JSON.stringify(status, null, 2));
+      this.log('[DEBUG] Raw API position response:', JSON.stringify(position, null, 2));
 
       this.retryCount = 0;
 
@@ -154,22 +159,22 @@ class StromerBikeDevice extends Homey.Device {
     const oldLocked = this.getCapabilityValue('locked');
 
     const capabilities = {
-      'measure_battery': status.battery_SOC || status.bike_battery_percentage || 0,
-      'stromer_battery_health': status.battery_SOH || status.battery_health || status.bike_battery_health || 100,
+      'measure_battery': status.battery_SOC || 0,
+      'stromer_battery_health': status.battery_health || 100,
       'alarm_theft': status.theft_flag || false,
       'stromer_motor_temp_c': status.motor_temp || 0,
       'stromer_battery_temp_c': status.battery_temp || 0,
       'stromer_bike_speed': status.bike_speed || status.speed || 0,
-      'stromer_assistance_level': status.assistance_level || status.power_level || 0,
+      'stromer_assistance_level': status.assistance_level || 0,
       'onoff': status.light_on || status.light === 'on' || false,
       'locked': status.lock === 'locked' || status.lock_status === 'locked' || status.bike_lock === true || false,
-      'stromer_trip_distance': (status.trip_distance || 0) / 1000,
-      'stromer_average_speed_trip': status.average_speed_trip || status.trip_average_speed || 0,
-      'stromer_distance_total': (status.total_distance || 0) / 1000,
-      'stromer_distance_avg_speed': status.average_speed || status.distance_average_speed || 0,
+      'stromer_trip_distance': status.trip_distance || 0,
+      'stromer_average_speed_trip': status.average_speed_trip || 0,
+      'stromer_distance_total': status.total_distance || 0,
+      'stromer_distance_avg_speed': status.average_speed_total || 0,
       'stromer_avg_energy': status.average_energy_consumption || 0,
-      'stromer_total_distance': (status.odometer || 0) / 1000,
-      'stromer_lifetime_total_km': (status.odometer || 0) / 1000
+      'stromer_total_distance': status.total_distance || 0,
+      'stromer_lifetime_total_km': status.total_distance || 0
     };
 
     for (const [capability, value] of Object.entries(capabilities)) {
