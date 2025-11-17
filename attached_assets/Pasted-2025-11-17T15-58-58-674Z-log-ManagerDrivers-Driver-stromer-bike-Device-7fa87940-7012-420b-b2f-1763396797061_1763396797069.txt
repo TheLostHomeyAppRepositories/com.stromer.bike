@@ -1,0 +1,20 @@
+2025-11-17T15:58:58.674Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:7fa87940-7012-420b-b2f1-00bb2717f959] Starting polling with interval: 600000ms
+2025-11-17T16:09:02.033Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:7fa87940-7012-420b-b2f1-00bb2717f959] Starting polling with interval: 600000ms
+2025-11-17T16:19:05.982Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:7fa87940-7012-420b-b2f1-00bb2717f959] Starting polling with interval: 600000ms
+2025-11-17T16:25:05.612Z [log] [StromerApp] [ERROR] [StromerAPI] API call to /rapi/mobile/v4.1/bike/131799/light/ failed: API call failed with status 405
+2025-11-17T16:25:05.620Z [err] [ManagerDrivers] [Driver:stromer-bike] [Device:7fa87940-7012-420b-b2f1-00bb2717f959] Failed to set light: Error: API call failed with status 405
+    at StromerAPI.apiCall (/app/lib/StromerAPI.js:309:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async StromerAPI.setBikeLight (/app/lib/StromerAPI.js:355:12)
+    at async StromerAuthService.setBikeLight (/app/app.js:361:20)
+    at async StromerBikeDevice.setLight (/app/drivers/stromer-bike/device.js:223:7)
+    at async StromerBikeDevice._onSetCapabilityValue (/node_modules/@athombv/homey-apps-sdk-v3/lib/Device.js:175:5)
+2025-11-17T16:25:10.808Z [log] [StromerApp] [ERROR] [StromerAPI] API call to /rapi/mobile/v4.1/bike/131799/lock/ failed: API call failed with status 404
+2025-11-17T16:25:10.809Z [err] [ManagerDrivers] [Driver:stromer-bike] [Device:7fa87940-7012-420b-b2f1-00bb2717f959] Failed to set lock: Error: API call failed with status 404
+    at StromerAPI.apiCall (/app/lib/StromerAPI.js:309:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async StromerAPI.setBikeLock (/app/lib/StromerAPI.js:346:12)
+    at async StromerAuthService.setBikeLock (/app/app.js:368:20)
+    at async StromerBikeDevice.setLock (/app/drivers/stromer-bike/device.js:239:7)
+    at async StromerBikeDevice._onSetCapabilityValue (/node_modules/@athombv/homey-apps-sdk-v3/lib/Device.js:175:5)
+
