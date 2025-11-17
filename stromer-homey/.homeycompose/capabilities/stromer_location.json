@@ -5,6 +5,5 @@
   },
   "getable": true,
   "setable": false,
-  "uiComponent": "sensor",
-  "icon": "/assets/location.svg"
+  "uiComponent": "sensor"
 }

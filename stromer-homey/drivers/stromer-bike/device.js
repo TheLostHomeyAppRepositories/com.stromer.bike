@@ -128,7 +128,9 @@ class StromerBikeDevice extends Homey.Device {
       
       if (shouldFetchStats) {
         [, , bikeDetails, yearStats, monthStats, dayStats] = results;
-        this.lastStatsFetch = now;
+        if (bikeDetails || yearStats || monthStats || dayStats) {
+          this.lastStatsFetch = now;
+        }
       }
 
       if (!status && !position) {
@@ -194,7 +196,7 @@ class StromerBikeDevice extends Homey.Device {
   }
 
   async updatePositionCapabilities(position) {
-    if (position && position.latitude && position.longitude) {
+    if (position && position.latitude != null && position.longitude != null) {
       const locationString = `${position.latitude}, ${position.longitude}`;
       await this.setCapabilityValue('stromer_location', locationString).catch(this.error);
     }

@@ -508,9 +508,11 @@
         "stromer_avg_energy",
         "stromer_total_distance",
         "stromer_lifetime_total_km",
-        "stromer_latitude",
-        "stromer_longitude",
-        "stromer_bike_speed",
+        "stromer_user_total_distance",
+        "stromer_power_cycles",
+        "stromer_atmospheric_pressure",
+        "stromer_total_energy_consumption",
+        "stromer_location",
         "stromer_assistance_level",
         "onoff",
         "locked"
@@ -652,6 +654,20 @@
       "insights": true,
       "chartType": "stepLine"
     },
+    "stromer_atmospheric_pressure": {
+      "type": "number",
+      "title": {
+        "en": "Atmospheric Pressure"
+      },
+      "units": {
+        "en": "hPa"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    },
     "stromer_average_speed_trip": {
       "type": "number",
       "title": {
@@ -716,22 +732,6 @@
       "insights": true,
       "chartType": "spline"
     },
-    "stromer_bike_speed": {
-      "type": "number",
-      "title": {
-        "en": "Current Speed"
-      },
-      "units": {
-        "en": "km/h"
-      },
-      "decimals": 1,
-      "getable": true,
-      "setable": false,
-      "uiComponent": "sensor",
-      "min": 0,
-      "insights": true,
-      "chartType": "spline"
-    },
     "stromer_day_avg_speed": {
       "type": "number",
       "title": {
@@ -780,17 +780,6 @@
       "insights": true,
       "chartType": "stepLine"
     },
-    "stromer_latitude": {
-      "type": "number",
-      "title": {
-        "en": "Latitude"
-      },
-      "decimals": 6,
-      "getable": true,
-      "setable": false,
-      "uiComponent": "sensor",
-      "insights": false
-    },
     "stromer_lifetime_total_km": {
       "type": "number",
       "title": {
@@ -807,16 +796,14 @@
       "insights": true,
       "chartType": "stepLine"
     },
-    "stromer_longitude": {
-      "type": "number",
+    "stromer_location": {
+      "type": "string",
       "title": {
-        "en": "Longitude"
+        "en": "Location"
       },
-      "decimals": 6,
       "getable": true,
       "setable": false,
-      "uiComponent": "sensor",
-      "insights": false
+      "uiComponent": "sensor"
     },
     "stromer_month_avg_speed": {
       "type": "number",
@@ -865,6 +852,16 @@
       "insights": true,
       "chartType": "spline"
     },
+    "stromer_power_cycles": {
+      "type": "number",
+      "title": {
+        "en": "Power Cycles"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    },
     "stromer_total_distance": {
       "type": "number",
       "title": {
@@ -881,6 +878,20 @@
       "insights": true,
       "chartType": "stepLine"
     },
+    "stromer_total_energy_consumption": {
+      "type": "number",
+      "title": {
+        "en": "Total Energy Consumption"
+      },
+      "units": {
+        "en": "Wh"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    },
     "stromer_trip_distance": {
       "type": "number",
       "title": {
@@ -896,6 +907,20 @@
       "min": 0,
       "insights": true,
       "chartType": "stepLine"
+    },
+    "stromer_user_total_distance": {
+      "type": "number",
+      "title": {
+        "en": "User Total Distance"
+      },
+      "units": {
+        "en": "km"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
     },
     "stromer_year_avg_speed": {
       "type": "number",
