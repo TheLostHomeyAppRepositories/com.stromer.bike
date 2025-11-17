@@ -30,7 +30,8 @@
     "stromer_power_cycles",
     "stromer_atmospheric_pressure",
     "stromer_total_energy_consumption",
-    "stromer_location",
+    "stromer_latitude",
+    "stromer_longitude",
     "stromer_assistance_level",
     "onoff",
     "locked"

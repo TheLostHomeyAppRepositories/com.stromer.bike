@@ -512,7 +512,8 @@
         "stromer_power_cycles",
         "stromer_atmospheric_pressure",
         "stromer_total_energy_consumption",
-        "stromer_location",
+        "stromer_latitude",
+        "stromer_longitude",
         "stromer_assistance_level",
         "onoff",
         "locked"
@@ -780,6 +781,17 @@
       "insights": true,
       "chartType": "stepLine"
     },
+    "stromer_latitude": {
+      "type": "number",
+      "title": {
+        "en": "Latitude"
+      },
+      "decimals": 6,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    },
     "stromer_lifetime_total_km": {
       "type": "number",
       "title": {
@@ -796,14 +808,16 @@
       "insights": true,
       "chartType": "stepLine"
     },
-    "stromer_location": {
-      "type": "string",
+    "stromer_longitude": {
+      "type": "number",
       "title": {
-        "en": "Location"
+        "en": "Longitude"
       },
+      "decimals": 6,
       "getable": true,
       "setable": false,
-      "uiComponent": "sensor"
+      "uiComponent": "sensor",
+      "insights": true
     },
     "stromer_month_avg_speed": {
       "type": "number",

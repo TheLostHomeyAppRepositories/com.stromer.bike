@@ -361,10 +361,41 @@ class StromerAPI {
 
   async resetTripData(bikeId) {
     const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
-    return await this.apiCall(
-      `/rapi/mobile/${apiVersion}/bike/id/${bikeId}/trip_data/`,
-      'DELETE'
-    );
+    const url = `${this.baseUrl}/rapi/mobile/${apiVersion}/bike/id/${bikeId}/trip_data/`;
+    
+    await this.ensureValidToken();
+    
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `${this.tokens.token_type} ${this.tokens.access_token}`,
+      },
+    };
+
+    try {
+      const response = await fetch(url, options);
+      
+      if (response.status === 401) {
+        this.log('[StromerAPI] Token expired, refreshing...');
+        await this.refreshToken();
+        options.headers['Authorization'] = `${this.tokens.token_type} ${this.tokens.access_token}`;
+        const retryResponse = await fetch(url, options);
+        
+        if (!retryResponse.ok && retryResponse.status !== 204) {
+          throw new Error(`Trip reset failed with status ${retryResponse.status}`);
+        }
+        return;
+      }
+
+      if (!response.ok && response.status !== 204) {
+        throw new Error(`Trip reset failed with status ${response.status}`);
+      }
+      
+      return;
+    } catch (error) {
+      this.error(`[StromerAPI] Trip reset failed:`, error.message);
+      throw error;
+    }
   }
 
   async getYearStatistics(bikeId) {

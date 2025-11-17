@@ -94,7 +94,7 @@ class StromerBikeDevice extends Homey.Device {
       ];
 
       const now = Date.now();
-      const shouldFetchStats = this.isActive && (now - this.lastStatsFetch) > this.statsInterval;
+      const shouldFetchStats = (now - this.lastStatsFetch) > this.statsInterval;
       
       let bikeDetails = null;
       let yearStats = null;
@@ -197,15 +197,27 @@ class StromerBikeDevice extends Homey.Device {
 
   async updatePositionCapabilities(position) {
     if (position && position.latitude != null && position.longitude != null) {
-      const locationString = `${position.latitude}, ${position.longitude}`;
-      await this.setCapabilityValue('stromer_location', locationString).catch(this.error);
+      await this.setCapabilityValue('stromer_latitude', position.latitude).catch(this.error);
+      await this.setCapabilityValue('stromer_longitude', position.longitude).catch(this.error);
     }
   }
 
   async updateBikeDetailsCapabilities(details) {
-    if (details && details.user) {
-      if (this.hasCapability('stromer_user_total_distance') && details.user.total_distance !== undefined) {
-        await this.setCapabilityValue('stromer_user_total_distance', details.user.total_distance || 0).catch(this.error);
+    this.log('[DEBUG] Raw bike details for user total distance:', JSON.stringify(details, null, 2));
+    
+    if (details) {
+      let userTotalDistance = null;
+      
+      if (details.user && details.user.total_distance !== undefined) {
+        userTotalDistance = details.user.total_distance;
+      } else if (details.bike && details.bike.user && details.bike.user.total_distance !== undefined) {
+        userTotalDistance = details.bike.user.total_distance;
+      } else if (details.total_distance !== undefined) {
+        userTotalDistance = details.total_distance;
+      }
+      
+      if (userTotalDistance !== null && this.hasCapability('stromer_user_total_distance')) {
+        await this.setCapabilityValue('stromer_user_total_distance', userTotalDistance).catch(this.error);
       }
     }
   }
@@ -225,7 +237,7 @@ class StromerBikeDevice extends Homey.Device {
       'stromer_assistance_level': status.assistance_level || 0,
       'onoff': status.light_on || status.light === 'on' || false,
       'locked': status.lock === 'locked' || status.lock_status === 'locked' || status.bike_lock === true || false,
-      'stromer_trip_distance': (status.trip_distance || 0) / 1000,
+      'stromer_trip_distance': status.trip_distance || 0,
       'stromer_average_speed_trip': status.average_speed_trip || 0,
       'stromer_distance_total': status.total_distance || 0,
       'stromer_distance_avg_speed': status.average_speed_total || 0,

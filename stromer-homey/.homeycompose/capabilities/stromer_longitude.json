@@ -1,0 +1,11 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Longitude"
+  },
+  "decimals": 6,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true
+}
