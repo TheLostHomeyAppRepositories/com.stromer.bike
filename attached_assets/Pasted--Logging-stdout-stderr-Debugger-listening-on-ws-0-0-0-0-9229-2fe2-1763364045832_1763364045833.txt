@@ -1,0 +1,29 @@
+─────────────── Logging stdout & stderr ───────────────
+Debugger listening on ws://0.0.0.0:9229/2fe248ec-bc51-459e-bdbd-be390750da0f
+For help, see: https://nodejs.org/en/docs/inspector
+2025-11-17T07:18:58.569Z [log] [StromerApp] Stromer app has been initialized
+2025-11-17T07:18:58.574Z [log] [StromerApp] Initializing StromerAuthService
+2025-11-17T07:18:58.574Z [log] [StromerApp] App settings already configured, skipping migration check
+2025-11-17T07:18:58.574Z [log] [StromerApp] No stored tokens found, authentication required
+2025-11-17T07:18:58.575Z [log] [StromerApp] Flow cards registered
+2025-11-17T07:18:58.577Z [log] [ManagerDrivers] [Driver:stromer-bike] StromerBikeDriver has been initialized
+2025-11-17T07:20:17.083Z [log] [ManagerDrivers] [Driver:stromer-bike] Authenticating and fetching bikes...
+2025-11-17T07:20:17.086Z [log] [StromerApp] Authenticating with Stromer API...
+2025-11-17T07:20:17.094Z [log] [StromerApp] [StromerAPI] Starting authentication with CSRF token flow
+2025-11-17T07:20:17.100Z [log] [StromerApp]   - API Version: v4
+2025-11-17T07:20:17.100Z [log] [StromerApp]   - Username: woutdool@gmail.com
+2025-11-17T07:20:17.102Z [log] [StromerApp]   - Client ID: 4P3VE9rBYdueKQioWb7nv7RJDU8EQsn2wiQaNqhG
+2025-11-17T07:20:17.102Z [log] [StromerApp]   - Password: ***hyr
+2025-11-17T07:20:17.102Z [log] [StromerApp] [StromerAPI] Step 1: GET login page to obtain CSRF token and session
+2025-11-17T07:20:17.499Z [log] [StromerApp] [StromerAPI] Cookies extracted: csrftoken
+2025-11-17T07:20:17.499Z [log] [StromerApp] [StromerAPI] Step 2: POST credentials with CSRF token and session
+2025-11-17T07:20:18.170Z [log] [StromerApp] [StromerAPI] Updated cookies: csrftoken, sessionid
+2025-11-17T07:20:18.170Z [log] [StromerApp] [StromerAPI] Step 3: Follow redirect to authorization endpoint
+2025-11-17T07:20:18.268Z [log] [StromerApp] [StromerAPI] Authorization code obtained: mG4cof6y...
+2025-11-17T07:20:18.268Z [log] [StromerApp] [StromerAPI] Step 4: Exchange authorization code for access token
+2025-11-17T07:20:18.398Z [log] [StromerApp] [StromerAPI] Access token received successfully
+2025-11-17T07:20:18.399Z [log] [StromerApp] [StromerAPI] Authentication successful
+2025-11-17T07:20:18.401Z [log] [StromerApp] Authentication successful, tokens saved
+2025-11-17T07:20:18.511Z [log] [ManagerDrivers] [Driver:stromer-bike] Found undefined bike(s)
+2025-11-17T07:20:18.512Z [err] [ManagerDrivers] [Driver:stromer-bike] Error during pairing: bikes.map is not a function
+
