@@ -14,6 +14,8 @@ class StromerBikeDevice extends Homey.Device {
     this.isActive = false;
     this.retryCount = 0;
     this.maxRetries = 5;
+    this.lastStatsFetch = 0;
+    this.statsInterval = 60 * 60 * 1000;
 
     await this.setUnavailable('Connecting to Stromer...').catch(this.error);
 
@@ -80,7 +82,7 @@ class StromerBikeDevice extends Homey.Device {
     try {
       const bikeId = this.getData().id;
       
-      const [status, position] = await Promise.all([
+      const fetchPromises = [
         this.authService.getBikeState(bikeId).catch(err => {
           this.error('Failed to get bike status:', err);
           return null;
@@ -89,7 +91,45 @@ class StromerBikeDevice extends Homey.Device {
           this.error('Failed to get bike position:', err);
           return null;
         })
-      ]);
+      ];
+
+      const now = Date.now();
+      const shouldFetchStats = this.isActive && (now - this.lastStatsFetch) > this.statsInterval;
+      
+      let bikeDetails = null;
+      let yearStats = null;
+      let monthStats = null;
+      let dayStats = null;
+
+      if (shouldFetchStats) {
+        this.log('[DEBUG] Fetching statistics (bike is active, last fetch > 1 hour ago)');
+        fetchPromises.push(
+          this.authService.getBikeDetails(bikeId).catch(err => {
+            this.error('Failed to get bike details:', err);
+            return null;
+          }),
+          this.authService.getYearStatistics(bikeId).catch(err => {
+            this.error('Failed to get year statistics:', err);
+            return null;
+          }),
+          this.authService.getMonthStatistics(bikeId).catch(err => {
+            this.error('Failed to get month statistics:', err);
+            return null;
+          }),
+          this.authService.getDayStatistics(bikeId).catch(err => {
+            this.error('Failed to get day statistics:', err);
+            return null;
+          })
+        );
+      }
+
+      const results = await Promise.all(fetchPromises);
+      const [status, position] = results;
+      
+      if (shouldFetchStats) {
+        [, , bikeDetails, yearStats, monthStats, dayStats] = results;
+        this.lastStatsFetch = now;
+      }
 
       if (!status && !position) {
         throw new Error('Failed to fetch bike data');
@@ -97,15 +137,23 @@ class StromerBikeDevice extends Homey.Device {
 
       this.log('[DEBUG] Raw API status response:', JSON.stringify(status, null, 2));
       this.log('[DEBUG] Raw API position response:', JSON.stringify(position, null, 2));
+      if (bikeDetails) this.log('[DEBUG] Raw API bike details:', JSON.stringify(bikeDetails, null, 2));
+      if (yearStats) this.log('[DEBUG] Raw API year stats:', JSON.stringify(yearStats, null, 2));
+      if (monthStats) this.log('[DEBUG] Raw API month stats:', JSON.stringify(monthStats, null, 2));
+      if (dayStats) this.log('[DEBUG] Raw API day stats:', JSON.stringify(dayStats, null, 2));
 
       this.retryCount = 0;
 
       if (status) {
-        await this.updateStatusCapabilities(status);
+        await this.updateStatusCapabilities(status, yearStats, monthStats, dayStats);
       }
 
       if (position) {
         await this.updatePositionCapabilities(position);
+      }
+
+      if (bikeDetails) {
+        await this.updateBikeDetailsCapabilities(bikeDetails);
       }
 
       const wasActive = this.isActive;
@@ -147,12 +195,20 @@ class StromerBikeDevice extends Homey.Device {
 
   async updatePositionCapabilities(position) {
     if (position && position.latitude && position.longitude) {
-      await this.setCapabilityValue('stromer_latitude', position.latitude).catch(this.error);
-      await this.setCapabilityValue('stromer_longitude', position.longitude).catch(this.error);
+      const locationString = `${position.latitude}, ${position.longitude}`;
+      await this.setCapabilityValue('stromer_location', locationString).catch(this.error);
     }
   }
 
-  async updateStatusCapabilities(status) {
+  async updateBikeDetailsCapabilities(details) {
+    if (details && details.user) {
+      if (this.hasCapability('stromer_user_total_distance') && details.user.total_distance !== undefined) {
+        await this.setCapabilityValue('stromer_user_total_distance', details.user.total_distance || 0).catch(this.error);
+      }
+    }
+  }
+
+  async updateStatusCapabilities(status, yearStats = null, monthStats = null, dayStats = null) {
     const oldBattery = this.getCapabilityValue('measure_battery');
     const oldBatteryHealth = this.getCapabilityValue('stromer_battery_health');
     const oldTheftFlag = this.getCapabilityValue('alarm_theft');
@@ -164,18 +220,34 @@ class StromerBikeDevice extends Homey.Device {
       'alarm_theft': status.theft_flag || false,
       'stromer_motor_temp_c': status.motor_temp || 0,
       'stromer_battery_temp_c': status.battery_temp || 0,
-      'stromer_bike_speed': status.bike_speed || status.speed || 0,
       'stromer_assistance_level': status.assistance_level || 0,
       'onoff': status.light_on || status.light === 'on' || false,
       'locked': status.lock === 'locked' || status.lock_status === 'locked' || status.bike_lock === true || false,
-      'stromer_trip_distance': status.trip_distance || 0,
+      'stromer_trip_distance': (status.trip_distance || 0) / 1000,
       'stromer_average_speed_trip': status.average_speed_trip || 0,
       'stromer_distance_total': status.total_distance || 0,
       'stromer_distance_avg_speed': status.average_speed_total || 0,
       'stromer_avg_energy': status.average_energy_consumption || 0,
       'stromer_total_distance': status.total_distance || 0,
-      'stromer_lifetime_total_km': status.total_distance || 0
+      'stromer_lifetime_total_km': status.total_distance || 0,
+      'stromer_power_cycles': status.power_on_cycles || 0,
+      'stromer_atmospheric_pressure': status.atmospheric_pressure || 0,
+      'stromer_total_energy_consumption': status.total_energy_consumption || 0
     };
+
+    if (yearStats) {
+      capabilities['stromer_year_distance'] = yearStats.distance || 0;
+      capabilities['stromer_year_avg_speed'] = yearStats.avg_speed || 0;
+    }
+
+    if (monthStats) {
+      capabilities['stromer_month_distance'] = monthStats.distance || 0;
+      capabilities['stromer_month_avg_speed'] = monthStats.avg_speed || 0;
+    }
+
+    if (dayStats) {
+      capabilities['stromer_day_avg_speed'] = dayStats.avg_speed || 0;
+    }
 
     for (const [capability, value] of Object.entries(capabilities)) {
       if (value !== undefined && value !== null && this.hasCapability(capability)) {
