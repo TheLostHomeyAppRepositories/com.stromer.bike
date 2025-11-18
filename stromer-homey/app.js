@@ -309,14 +309,12 @@ class StromerAuthService {
     this.refreshPromise = (async () => {
       try {
         this.log('Refreshing tokens...');
-        const clientId = this.homey.settings.get('stromer_client_id');
-        const currentTokens = this.stromerAPI.getTokens();
         
-        if (!currentTokens || !currentTokens.refresh_token) {
+        if (!this.stromerAPI || !this.stromerAPI.tokens || !this.stromerAPI.tokens.refresh_token) {
           throw new Error('No refresh token available');
         }
 
-        await this.stromerAPI.refreshToken(clientId, currentTokens.refresh_token);
+        await this.stromerAPI.refreshToken();
         
         const newTokens = this.stromerAPI.getTokens();
         this.homey.settings.set('stromer_tokens', newTokens);
@@ -375,6 +373,34 @@ class StromerAuthService {
     const result = await this.stromerAPI.resetTripData(bikeId);
     await this.saveTokens();
     return result;
+  }
+
+  async getBikeDetails(bikeId) {
+    await this.ensureAuthenticated();
+    const details = await this.stromerAPI.getBikeDetails(bikeId);
+    await this.saveTokens();
+    return details;
+  }
+
+  async getYearStatistics(bikeId) {
+    await this.ensureAuthenticated();
+    const stats = await this.stromerAPI.getYearStatistics(bikeId);
+    await this.saveTokens();
+    return stats;
+  }
+
+  async getMonthStatistics(bikeId) {
+    await this.ensureAuthenticated();
+    const stats = await this.stromerAPI.getMonthStatistics(bikeId);
+    await this.saveTokens();
+    return stats;
+  }
+
+  async getDayStatistics(bikeId) {
+    await this.ensureAuthenticated();
+    const stats = await this.stromerAPI.getDayStatistics(bikeId);
+    await this.saveTokens();
+    return stats;
   }
 
   async saveTokens() {
