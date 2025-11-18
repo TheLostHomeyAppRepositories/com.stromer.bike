@@ -197,8 +197,8 @@ class StromerBikeDevice extends Homey.Device {
 
   async updatePositionCapabilities(position) {
     if (position && position.latitude != null && position.longitude != null) {
-      await this.setCapabilityValue('stromer_latitude', position.latitude).catch(this.error);
-      await this.setCapabilityValue('stromer_longitude', position.longitude).catch(this.error);
+      const locationString = `${position.latitude}, ${position.longitude}`;
+      await this.setCapabilityValue('stromer_location', locationString).catch(this.error);
     }
   }
 

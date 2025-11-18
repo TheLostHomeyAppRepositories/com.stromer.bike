@@ -341,6 +341,12 @@ class StromerAPI {
     return response?.data?.[0] || response;
   }
 
+  async getBikeDetails(bikeId) {
+    const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
+    const response = await this.apiCall(`/rapi/mobile/${apiVersion}/bike/${bikeId}/`);
+    return response?.data?.[0] || response;
+  }
+
   async setBikeLock(bikeId, lock) {
     const apiVersion = this.clientSecret ? 'v2' : 'v4.1';
     return await this.apiCall(

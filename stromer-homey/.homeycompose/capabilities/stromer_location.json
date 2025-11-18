@@ -1,11 +1,10 @@
 {
-  "type": "number",
+  "type": "string",
   "title": {
-    "en": "Longitude"
+    "en": "Location"
   },
-  "decimals": 6,
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "insights": true
+  "insights": false
 }
