@@ -54,6 +54,18 @@ The architecture includes:
 
 ## Recent Changes
 
+### November 18, 2025: Critical Bug Fixes and Location Capability Update
+**CRITICAL FIX**: Fixed "Device unavailable" error and combined location display
+
+**Issues Fixed:**
+1. **Missing getBikeDetails() Method**: Added implementation in StromerAPI.js to fetch bike details from `/rapi/mobile/v{VERSION}/bike/{bikeId}/` endpoint. This was causing "getBikeDetails is not a function" TypeError and making devices unavailable.
+
+2. **Combined Location Capability**: Changed from separate `stromer_latitude` and `stromer_longitude` number capabilities to a single `stromer_location` string capability displaying "52.123456, 4.567890" format. This matches user preference for combined location display.
+
+3. **Immediate Data Loading**: Verified that data loads immediately on device init via `await this.updateBikeData()` in `onInit()` before polling starts. Previous unavailability was due to missing getBikeDetails() method, not polling delays.
+
+**Impact**: Users with existing paired devices must delete and re-pair their bikes to see the new combined location field (Homey SDK limitation - cannot add/change capabilities on existing devices).
+
 ### November 16, 2025: Authentication Flow Rewrite
 **CRITICAL FIX**: Completely rewrote authentication to match Home Assistant's working implementation after debugging 403 CSRF errors.
 
