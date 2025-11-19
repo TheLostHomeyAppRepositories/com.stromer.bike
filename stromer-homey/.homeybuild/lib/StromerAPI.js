@@ -371,21 +371,32 @@ class StromerAPI {
     
     await this.ensureValidToken();
     
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    
     const options = {
       method: 'DELETE',
       headers: {
         'Authorization': `${this.tokens.token_type} ${this.tokens.access_token}`,
       },
+      signal: controller.signal,
     };
 
     try {
       const response = await fetch(url, options);
+      clearTimeout(timeoutId);
       
       if (response.status === 401) {
         this.log('[StromerAPI] Token expired, refreshing...');
         await this.refreshToken();
         options.headers['Authorization'] = `${this.tokens.token_type} ${this.tokens.access_token}`;
+        
+        const retryController = new AbortController();
+        const retryTimeoutId = setTimeout(() => retryController.abort(), 30000);
+        options.signal = retryController.signal;
+        
         const retryResponse = await fetch(url, options);
+        clearTimeout(retryTimeoutId);
         
         if (!retryResponse.ok && retryResponse.status !== 204) {
           throw new Error(`Trip reset failed with status ${retryResponse.status}`);
@@ -397,8 +408,14 @@ class StromerAPI {
         throw new Error(`Trip reset failed with status ${response.status}`);
       }
       
+      this.log('[StromerAPI] Trip data reset successfully');
       return;
     } catch (error) {
+      clearTimeout(timeoutId);
+      if (error.name === 'AbortError') {
+        this.error(`[StromerAPI] Trip reset timed out after 30 seconds`);
+        throw new Error('Trip reset request timed out. The bike may be offline or the API is slow. Please try again.');
+      }
       this.error(`[StromerAPI] Trip reset failed:`, error.message);
       throw error;
     }

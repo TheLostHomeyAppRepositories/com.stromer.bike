@@ -140,9 +140,21 @@ class StromerBikeDevice extends Homey.Device {
       this.log('[DEBUG] Raw API status response:', JSON.stringify(status, null, 2));
       this.log('[DEBUG] Raw API position response:', JSON.stringify(position, null, 2));
       if (bikeDetails) this.log('[DEBUG] Raw API bike details:', JSON.stringify(bikeDetails, null, 2));
-      if (yearStats) this.log('[DEBUG] Raw API year stats:', JSON.stringify(yearStats, null, 2));
-      if (monthStats) this.log('[DEBUG] Raw API month stats:', JSON.stringify(monthStats, null, 2));
-      if (dayStats) this.log('[DEBUG] Raw API day stats:', JSON.stringify(dayStats, null, 2));
+      if (yearStats) {
+        this.log('[STATS] Year statistics response:', JSON.stringify(yearStats, null, 2));
+      } else {
+        this.log('[STATS] Year statistics: null or not fetched');
+      }
+      if (monthStats) {
+        this.log('[STATS] Month statistics response:', JSON.stringify(monthStats, null, 2));
+      } else {
+        this.log('[STATS] Month statistics: null or not fetched');
+      }
+      if (dayStats) {
+        this.log('[STATS] Day statistics response:', JSON.stringify(dayStats, null, 2));
+      } else {
+        this.log('[STATS] Day statistics: null or not fetched');
+      }
 
       this.retryCount = 0;
 
@@ -250,17 +262,20 @@ class StromerBikeDevice extends Homey.Device {
     };
 
     if (yearStats) {
-      capabilities['stromer_year_distance'] = yearStats.distance || 0;
-      capabilities['stromer_year_avg_speed'] = yearStats.avg_speed || 0;
+      this.log('[STATS] Mapping year stats - distance:', yearStats.distance, 'avg_speed:', yearStats.avg_speed);
+      if (yearStats.distance !== undefined) capabilities['stromer_year_distance'] = yearStats.distance;
+      if (yearStats.avg_speed !== undefined) capabilities['stromer_year_avg_speed'] = yearStats.avg_speed;
     }
 
     if (monthStats) {
-      capabilities['stromer_month_distance'] = monthStats.distance || 0;
-      capabilities['stromer_month_avg_speed'] = monthStats.avg_speed || 0;
+      this.log('[STATS] Mapping month stats - distance:', monthStats.distance, 'avg_speed:', monthStats.avg_speed);
+      if (monthStats.distance !== undefined) capabilities['stromer_month_distance'] = monthStats.distance;
+      if (monthStats.avg_speed !== undefined) capabilities['stromer_month_avg_speed'] = monthStats.avg_speed;
     }
 
     if (dayStats) {
-      capabilities['stromer_day_avg_speed'] = dayStats.avg_speed || 0;
+      this.log('[STATS] Mapping day stats - avg_speed:', dayStats.avg_speed);
+      if (dayStats.avg_speed !== undefined) capabilities['stromer_day_avg_speed'] = dayStats.avg_speed;
     }
 
     for (const [capability, value] of Object.entries(capabilities)) {
