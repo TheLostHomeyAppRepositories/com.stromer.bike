@@ -11,27 +11,23 @@
   "capabilities": [
     "measure_battery",
     "stromer_battery_health",
-    "alarm_theft",
-    "stromer_motor_temp_c",
-    "stromer_battery_temp_c",
     "stromer_trip_distance",
     "stromer_average_speed_trip",
+    "stromer_motor_temp_c",
+    "stromer_battery_temp_c",
+    "stromer_user_total_distance",
     "stromer_distance_total",
     "stromer_distance_avg_speed",
     "stromer_year_distance",
-    "stromer_year_avg_speed",
     "stromer_month_distance",
-    "stromer_month_avg_speed",
-    "stromer_day_avg_speed",
+    "stromer_week_distance",
     "stromer_avg_energy",
-    "stromer_total_distance",
-    "stromer_lifetime_total_km",
-    "stromer_user_total_distance",
     "stromer_power_cycles",
-    "stromer_atmospheric_pressure",
     "stromer_total_energy_consumption",
     "stromer_location",
+    "alarm_theft",
     "stromer_assistance_level",
+    "stromer_atmospheric_pressure",
     "onoff",
     "locked"
   ],
@@ -103,6 +99,118 @@
           "hint": {
             "en": "How often to check bike status when active/unlocked (10-300 seconds)"
           }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Distance Baselines"
+      },
+      "children": [
+        {
+          "id": "user_total_baseline",
+          "type": "number",
+          "label": {
+            "en": "Lifetime Total Distance (km)"
+          },
+          "value": 0,
+          "min": 0,
+          "hint": {
+            "en": "Your total lifetime distance from Stromer app"
+          }
+        },
+        {
+          "id": "odometer_baseline",
+          "type": "number",
+          "label": {
+            "en": "Bike Odometer at Baseline (km)"
+          },
+          "value": 0,
+          "min": 0,
+          "hint": {
+            "en": "Current bike odometer reading (Total Distance)"
+          }
+        },
+        {
+          "id": "year_baseline",
+          "type": "number",
+          "label": {
+            "en": "Year Start Distance (km)"
+          },
+          "value": 0,
+          "min": 0,
+          "hint": {
+            "en": "Auto-resets January 1st"
+          }
+        },
+        {
+          "id": "month_baseline",
+          "type": "number",
+          "label": {
+            "en": "Month Start Distance (km)"
+          },
+          "value": 0,
+          "min": 0,
+          "hint": {
+            "en": "Auto-resets 1st of month"
+          }
+        },
+        {
+          "id": "week_baseline",
+          "type": "number",
+          "label": {
+            "en": "Week Start Distance (km)"
+          },
+          "value": 0,
+          "min": 0,
+          "hint": {
+            "en": "Auto-resets Monday"
+          }
+        },
+        {
+          "id": "day_baseline",
+          "type": "number",
+          "label": {
+            "en": "Day Start Distance (km)"
+          },
+          "value": 0,
+          "min": 0,
+          "hint": {
+            "en": "Auto-resets at midnight"
+          }
+        },
+        {
+          "id": "year_date",
+          "type": "label",
+          "label": {
+            "en": "Year Reset Date"
+          },
+          "value": "-"
+        },
+        {
+          "id": "month_date",
+          "type": "label",
+          "label": {
+            "en": "Month Reset Date"
+          },
+          "value": "-"
+        },
+        {
+          "id": "week_date",
+          "type": "label",
+          "label": {
+            "en": "Week Reset Date"
+          },
+          "value": "-"
+        },
+        {
+          "id": "day_date",
+          "type": "label",
+          "label": {
+            "en": "Day Reset Date"
+          },
+          "value": "-"
         }
       ]
     },

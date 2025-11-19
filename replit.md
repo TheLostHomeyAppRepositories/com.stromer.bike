@@ -54,6 +54,58 @@ The architecture includes:
 
 ## Recent Changes
 
+### November 19, 2025: Baseline Calculation System and Major UI Overhaul
+**Version 1.0.0** - Production-ready release with smart baseline calculation system
+
+**Major Features:**
+1. **Baseline Calculation System**: Implemented manual baseline inputs with automatic period resets
+   - Users enter their current lifetime distance from Stromer app once
+   - App calculates User Total Distance that grows with every km: `user_total_baseline + (current_odometer - odometer_at_baseline)`
+   - Period distances auto-reset automatically:
+     - **Year**: Resets January 1st
+     - **Month**: Resets 1st of each month
+     - **Week**: Resets every Monday
+     - **Day**: Resets at midnight
+   - Calculations: `period_distance = current_total_distance - period_baseline`
+
+2. **Settings Page Enhancements**:
+   - Added Distance Baselines section with 6 input fields
+   - Lifetime Total Distance baseline (e.g., 46,396 km from Stromer app)
+   - Bike Odometer at Baseline (current reading to anchor calculations)
+   - Year/Month/Week/Day baselines (auto-managed by app)
+   - Version number displayed (1.0.0)
+
+3. **Capability Changes**:
+   - **Added**: `stromer_week_distance` capability
+   - **Removed**: Year/Month/Day average speed capabilities (API doesn't provide these)
+   - **Removed**: Duplicate distance capabilities (`stromer_total_distance`, `stromer_lifetime_total_km`)
+   - **Kept**: Trip Average Speed (from bike status API)
+
+4. **Auto-Reset Logic**:
+   - Checks on every poll if period changed
+   - Stores period start dates in app settings
+   - Automatically updates baselines to current odometer when period changes
+   - Logs all auto-reset events for debugging
+
+5. **Trip Reset Timeout Fix**:
+   - Increased timeout to 30 seconds with AbortController
+   - Added proper error messages for timeout vs other failures
+   - User sees: "Trip reset request timed out. The bike may be offline or the API is slow. Please try again."
+
+**Technical Implementation:**
+- `checkAndResetBaselines(totalDistance)`: Detects period changes and updates baselines
+- `getWeekNumber(date)`: ISO week calculation for week boundary detection
+- Baselines stored in Homey app settings (persistent across restarts)
+- All calculations use `Math.max(0, ...)` to prevent negative distances
+
+**Why Baselines Instead of API Statistics:**
+The Stromer API doesn't provide separate year/month/week/day statistics endpoints. The `/status` endpoint only returns current trip and total metrics. The baseline approach allows users to track historical statistics by:
+1. Recording their current values from the Stromer mobile app
+2. Letting the app calculate differences automatically
+3. Auto-resetting periods without manual intervention
+
+**Impact**: Users must delete and re-pair devices to see new Week Distance capability.
+
 ### November 18, 2025: Critical Bug Fixes and Location Capability Update
 **CRITICAL FIX**: Fixed "Device unavailable" error and combined location display
 
