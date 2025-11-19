@@ -95,8 +95,10 @@ The architecture includes:
 **Technical Implementation:**
 - `checkAndResetBaselines(totalDistance)`: Detects period changes and updates baselines
 - `getWeekNumber(date)`: ISO week calculation for week boundary detection
-- Baselines stored in Homey app settings (persistent across restarts)
+- Baselines stored in **device settings** (per-bike isolation for multi-bike support)
 - All calculations use `Math.max(0, ...)` to prevent negative distances
+- Device settings UI in driver.compose.json for per-bike baseline configuration
+- App-level settings page updated to redirect users to device settings for baselines
 
 **Why Baselines Instead of API Statistics:**
 The Stromer API doesn't provide separate year/month/week/day statistics endpoints. The `/status` endpoint only returns current trip and total metrics. The baseline approach allows users to track historical statistics by:
@@ -104,7 +106,13 @@ The Stromer API doesn't provide separate year/month/week/day statistics endpoint
 2. Letting the app calculate differences automatically
 3. Auto-resetting periods without manual intervention
 
-**Impact**: Users must delete and re-pair devices to see new Week Distance capability.
+**Critical Bug Fix (Multi-Bike Support):**
+- **Issue**: Initial implementation stored baselines in app-level settings, causing all bikes to overwrite each other's data
+- **Solution**: Moved baselines to device-level settings using `this.getSettings()` / `this.setSettings()`
+- **Result**: Each bike now maintains independent year/month/week/day baselines without cross-contamination
+- Users configure baselines per bike via device settings (Settings → Distance Baselines)
+
+**Impact**: Users must delete and re-pair devices to see new Week Distance capability and configure baselines.
 
 ### November 18, 2025: Critical Bug Fixes and Location Capability Update
 **CRITICAL FIX**: Fixed "Device unavailable" error and combined location display
