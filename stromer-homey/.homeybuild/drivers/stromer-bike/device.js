@@ -262,6 +262,7 @@ class StromerBikeDevice extends Homey.Device {
     this.log('[CALC] Total Distance:', totalDistance, 'User Total:', userTotalDistance);
 
     const capabilities = {
+      'stromer_state_of_charge': status.battery_SOC || 0,
       'measure_battery': status.battery_SOC || 0,
       'stromer_battery_health': status.battery_health || 100,
       'alarm_theft': status.theft_flag || false,
