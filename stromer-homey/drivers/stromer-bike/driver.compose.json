@@ -18,20 +18,57 @@
     "stromer_user_total_distance",
     "stromer_distance_total",
     "stromer_distance_avg_speed",
-    "stromer_year_distance",
-    "stromer_month_distance",
-    "stromer_week_distance",
     "stromer_avg_energy",
     "stromer_power_cycles",
     "stromer_total_energy_consumption",
     "stromer_location",
     "alarm_theft",
-    "stromer_assistance_level",
-    "stromer_atmospheric_pressure",
     "onoff",
     "locked"
   ],
   "capabilitiesOptions": {
+    "measure_battery": {
+      "icon": "/assets/images/Icons/01 state of charge.svg"
+    },
+    "stromer_battery_health": {
+      "icon": "/assets/images/Icons/02 battery health.svg"
+    },
+    "stromer_trip_distance": {
+      "icon": "/assets/images/Icons/03 trip distance.svg"
+    },
+    "stromer_average_speed_trip": {
+      "icon": "/assets/images/Icons/04 average speed trip.svg"
+    },
+    "stromer_motor_temp_c": {
+      "icon": "/assets/images/Icons/05 motor temperature.svg"
+    },
+    "stromer_battery_temp_c": {
+      "icon": "/assets/images/Icons/06 battery temp.svg"
+    },
+    "stromer_user_total_distance": {
+      "icon": "/assets/images/Icons/07 user total distance.svg"
+    },
+    "stromer_distance_total": {
+      "icon": "/assets/images/Icons/08 bike total distance.svg"
+    },
+    "stromer_distance_avg_speed": {
+      "icon": "/assets/images/Icons/09 bike distance average speed.svg"
+    },
+    "stromer_avg_energy": {
+      "icon": "/assets/images/Icons/10 average energy consumption.svg"
+    },
+    "stromer_power_cycles": {
+      "icon": "/assets/images/Icons/11 Power cycles.svg"
+    },
+    "stromer_total_energy_consumption": {
+      "icon": "/assets/images/Icons/12 total energy consumption .svg"
+    },
+    "stromer_location": {
+      "icon": "/assets/images/Icons/13 Location.svg"
+    },
+    "alarm_theft": {
+      "icon": "/assets/images/Icons/14 diefstal alarm.png"
+    },
     "onoff": {
       "title": {
         "en": "Light"

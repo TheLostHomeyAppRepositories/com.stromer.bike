@@ -258,13 +258,8 @@ class StromerBikeDevice extends Homey.Device {
     const baselines = await this.checkAndResetBaselines(totalDistance);
     
     const userTotalDistance = userTotalBaseline + (totalDistance - odometerBaseline);
-    const yearDistance = Math.max(0, totalDistance - baselines.yearBaseline);
-    const monthDistance = Math.max(0, totalDistance - baselines.monthBaseline);
-    const weekDistance = Math.max(0, totalDistance - baselines.weekBaseline);
-    const dayDistance = Math.max(0, totalDistance - baselines.dayBaseline);
     
     this.log('[CALC] Total Distance:', totalDistance, 'User Total:', userTotalDistance);
-    this.log('[CALC] Year:', yearDistance, 'Month:', monthDistance, 'Week:', weekDistance, 'Day:', dayDistance);
 
     const capabilities = {
       'measure_battery': status.battery_SOC || 0,
@@ -272,7 +267,6 @@ class StromerBikeDevice extends Homey.Device {
       'alarm_theft': status.theft_flag || false,
       'stromer_motor_temp_c': status.motor_temp || 0,
       'stromer_battery_temp_c': status.battery_temp || 0,
-      'stromer_assistance_level': status.assistance_level || 0,
       'onoff': status.light_on || status.light === 'on' || false,
       'locked': status.lock === 'locked' || status.lock_status === 'locked' || status.bike_lock === true || false,
       'stromer_trip_distance': status.trip_distance || 0,
@@ -281,11 +275,7 @@ class StromerBikeDevice extends Homey.Device {
       'stromer_distance_avg_speed': status.average_speed_total || 0,
       'stromer_avg_energy': status.average_energy_consumption || 0,
       'stromer_user_total_distance': userTotalDistance,
-      'stromer_year_distance': yearDistance,
-      'stromer_month_distance': monthDistance,
-      'stromer_week_distance': weekDistance,
       'stromer_power_cycles': status.power_on_cycles || 0,
-      'stromer_atmospheric_pressure': status.atmospheric_pressure || 0,
       'stromer_total_energy_consumption': status.total_energy_consumption || 0
     }
 
