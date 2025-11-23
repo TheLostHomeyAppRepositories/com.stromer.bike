@@ -1,7 +1,7 @@
 {
   "type": "number",
   "title": {
-    "en": "Distance"
+    "en": "Bike Total Distance"
   },
   "units": {
     "en": "km"

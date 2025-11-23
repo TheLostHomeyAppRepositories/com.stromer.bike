@@ -3,6 +3,9 @@
   "title": {
     "en": "User Total Distance"
   },
+  "desc": {
+    "en": "Your total distance calculated from baseline. Configure baseline values in device settings under 'Distance Baselines'."
+  },
   "units": {
     "en": "km"
   },

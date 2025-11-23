@@ -782,7 +782,7 @@
         "en": "Theft alarm deactivated",
         "nl": "Diefstal alarm gedeactiveerd"
       },
-      "icon": "/drivers/stromer-bike/assets/icons/14-diefstal-alarm.png"
+      "icon": "/drivers/stromer-bike/assets/icons/14-diefstal-alarm.svg"
     },
     "stromer_assistance_level": {
       "type": "number",
@@ -900,7 +900,7 @@
     "stromer_distance_total": {
       "type": "number",
       "title": {
-        "en": "Distance"
+        "en": "Bike Total Distance"
       },
       "units": {
         "en": "km"
@@ -1021,6 +1021,9 @@
       "type": "number",
       "title": {
         "en": "User Total Distance"
+      },
+      "desc": {
+        "en": "Your total distance calculated from baseline. Configure baseline values in device settings under 'Distance Baselines'."
       },
       "units": {
         "en": "km"
