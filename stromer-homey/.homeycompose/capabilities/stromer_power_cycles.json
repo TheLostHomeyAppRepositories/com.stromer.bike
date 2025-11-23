@@ -6,5 +6,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "insights": true
+  "insights": true,
+  "icon": "/drivers/stromer-bike/assets/icons/11-power-cycles.svg"
 }

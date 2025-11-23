@@ -12,5 +12,6 @@
   "uiComponent": "sensor",
   "min": 0,
   "insights": true,
-  "chartType": "stepLine"
+  "chartType": "stepLine",
+  "icon": "/drivers/stromer-bike/assets/icons/08-bike-total-distance.svg"
 }

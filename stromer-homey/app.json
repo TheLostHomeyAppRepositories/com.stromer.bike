@@ -781,7 +781,8 @@
       "insightsTitleFalse": {
         "en": "Theft alarm deactivated",
         "nl": "Diefstal alarm gedeactiveerd"
-      }
+      },
+      "icon": "/drivers/stromer-bike/assets/icons/14-diefstal-alarm.png"
     },
     "stromer_assistance_level": {
       "type": "number",
@@ -825,7 +826,8 @@
       "uiComponent": "sensor",
       "min": 0,
       "insights": true,
-      "chartType": "spline"
+      "chartType": "spline",
+      "icon": "/drivers/stromer-bike/assets/icons/04-average-speed-trip.svg"
     },
     "stromer_avg_energy": {
       "type": "number",
@@ -841,7 +843,8 @@
       "uiComponent": "sensor",
       "min": 0,
       "insights": true,
-      "chartType": "spline"
+      "chartType": "spline",
+      "icon": "/drivers/stromer-bike/assets/icons/10-average-energy-consumption.svg"
     },
     "stromer_battery_health": {
       "type": "number",
@@ -858,7 +861,8 @@
       "min": 0,
       "max": 100,
       "insights": true,
-      "chartType": "spline"
+      "chartType": "spline",
+      "icon": "/drivers/stromer-bike/assets/icons/02-battery-health.svg"
     },
     "stromer_battery_temp_c": {
       "type": "number",
@@ -873,7 +877,8 @@
       "setable": false,
       "uiComponent": "sensor",
       "insights": true,
-      "chartType": "spline"
+      "chartType": "spline",
+      "icon": "/drivers/stromer-bike/assets/icons/06-battery-temp.svg"
     },
     "stromer_distance_avg_speed": {
       "type": "number",
@@ -889,7 +894,8 @@
       "uiComponent": "sensor",
       "min": 0,
       "insights": true,
-      "chartType": "spline"
+      "chartType": "spline",
+      "icon": "/drivers/stromer-bike/assets/icons/09-bike-distance-average-speed.svg"
     },
     "stromer_distance_total": {
       "type": "number",
@@ -905,7 +911,8 @@
       "uiComponent": "sensor",
       "min": 0,
       "insights": true,
-      "chartType": "stepLine"
+      "chartType": "stepLine",
+      "icon": "/drivers/stromer-bike/assets/icons/08-bike-total-distance.svg"
     },
     "stromer_location": {
       "type": "string",
@@ -915,7 +922,8 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "insights": false
+      "insights": false,
+      "icon": "/drivers/stromer-bike/assets/icons/13-location.svg"
     },
     "stromer_month_distance": {
       "type": "number",
@@ -946,7 +954,8 @@
       "setable": false,
       "uiComponent": "sensor",
       "insights": true,
-      "chartType": "spline"
+      "chartType": "spline",
+      "icon": "/drivers/stromer-bike/assets/icons/05-motor-temperature.svg"
     },
     "stromer_power_cycles": {
       "type": "number",
@@ -956,7 +965,8 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "insights": true
+      "insights": true,
+      "icon": "/drivers/stromer-bike/assets/icons/11-power-cycles.svg"
     },
     "stromer_state_of_charge": {
       "type": "number",
@@ -987,7 +997,8 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "insights": true
+      "insights": true,
+      "icon": "/drivers/stromer-bike/assets/icons/12-total-energy-consumption.svg"
     },
     "stromer_trip_distance": {
       "type": "number",
@@ -1003,7 +1014,8 @@
       "uiComponent": "sensor",
       "min": 0,
       "insights": true,
-      "chartType": "stepLine"
+      "chartType": "stepLine",
+      "icon": "/drivers/stromer-bike/assets/icons/03-trip-distance.svg"
     },
     "stromer_user_total_distance": {
       "type": "number",
@@ -1017,7 +1029,8 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "insights": true
+      "insights": true,
+      "icon": "/drivers/stromer-bike/assets/icons/07-user-total-distance.svg"
     },
     "stromer_week_distance": {
       "type": "number",

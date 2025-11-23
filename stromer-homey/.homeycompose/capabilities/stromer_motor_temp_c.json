@@ -11,5 +11,6 @@
   "setable": false,
   "uiComponent": "sensor",
   "insights": true,
-  "chartType": "spline"
+  "chartType": "spline",
+  "icon": "/drivers/stromer-bike/assets/icons/05-motor-temperature.svg"
 }

@@ -6,5 +6,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "insights": false
+  "insights": false,
+  "icon": "/drivers/stromer-bike/assets/icons/13-location.svg"
 }

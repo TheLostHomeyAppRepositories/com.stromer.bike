@@ -12,5 +12,6 @@
   "uiComponent": "sensor",
   "min": 0,
   "insights": true,
-  "chartType": "spline"
+  "chartType": "spline",
+  "icon": "/drivers/stromer-bike/assets/icons/10-average-energy-consumption.svg"
 }

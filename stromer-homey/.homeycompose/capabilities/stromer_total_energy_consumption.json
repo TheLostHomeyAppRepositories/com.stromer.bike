@@ -10,5 +10,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "insights": true
+  "insights": true,
+  "icon": "/drivers/stromer-bike/assets/icons/12-total-energy-consumption.svg"
 }
