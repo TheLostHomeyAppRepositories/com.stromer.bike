@@ -33,11 +33,20 @@
     "large": "/assets/images/large.png",
     "xlarge": "/assets/images/xlarge.png"
   },
+  "brandColor": "#000000",
   "author": {
-    "name": "Stromer Homey Integration",
-    "email": "support@stromer-homey.app"
+    "name": "Wout van den Dool",
+    "email": "woutdool@gmail.com"
   },
-  "support": "https://github.com/stromer-homey/support",
-  "homeyCommunityTopicId": 0,
-  "source": "https://github.com/stromer-homey/stromer-homey"
+  "contributors": {
+    "developers": [
+      {
+        "name": "Wout van den Dool",
+        "email": "woutdool@gmail.com"
+      }
+    ]
+  },
+  "support": "https://github.com/wdool/stromer_homey/issues",
+  "homeyCommunityTopicId": 145791,
+  "source": "https://github.com/wdool/stromer_homey"
 }
