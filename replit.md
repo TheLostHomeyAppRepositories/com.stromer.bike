@@ -54,6 +54,38 @@ The architecture includes:
 
 ## Recent Changes
 
+### November 23, 2025: App Store Preparation and Icon Fixes
+**Version 1.0.0** - Ready for Homey App Store submission
+
+**App Store Preparation:**
+1. **Metadata Updates**:
+   - Author: Wout van den Dool (woutdool@gmail.com)
+   - GitHub repository: https://github.com/wdool/stromer_homey
+   - Community topic ID: 145791 (https://community.homey.app/t/app-pro-stromer-speed-pedelec/145791)
+   - Brand color: #000000 (black)
+   
+2. **Documentation**:
+   - Created CHANGELOG.md with comprehensive feature list
+   - Created .gitignore for GitHub repository
+   - Created SUBMISSION_GUIDE.md with step-by-step instructions
+   
+3. **App Images Fixed**:
+   - Resized app images to meet App Store requirements
+   - small.png: 250×175 pixels
+   - large.png: 500×350 pixels
+   - xlarge.png: 750×525 pixels
+
+4. **Icon Implementation Complete**:
+   - All 14 capability icons now display correctly
+   - Custom State of Charge capability on Tab 2
+   - Converted theft alarm icon from PNG to SVG for better compatibility
+   - Changed "Distance" title to "Bike Total Distance"
+   - Added description to User Total Distance explaining baseline configuration
+
+5. **Validation**:
+   - App validates successfully at "publish" level
+   - Ready for Homey App Store submission via `homey app publish`
+
 ### November 19, 2025: Baseline Calculation System and Major UI Overhaul
 **Version 1.0.0** - Production-ready release with smart baseline calculation system
 
