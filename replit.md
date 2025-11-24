@@ -54,6 +54,19 @@ The architecture includes:
 
 ## Recent Changes
 
+### November 24, 2025: App Store Rejection Fixes
+**Version 1.0.1** - Addressing Homey App Store feedback
+
+**Changes Made:**
+1. **README.txt Rewrite**: Condensed to 2 engaging paragraphs without Flow cards list or URLs
+2. **Category Change**: Changed from "energy" to "appliances" category
+3. **Driver Icon**: Created unique e-bike silhouette SVG distinct from app icon (Stromer logo)
+4. **App Images**: Replaced logo with professional stock photos of Stromer e-bikes
+5. **Driver Images**: Created unique driver images showing bike on white background
+6. **Platform Support**: Removed "cloud" platform (only "local" supported)
+
+**Validation**: App validates successfully at "publish" level with all guideline requirements met.
+
 ### November 23, 2025: App Store Preparation and Icon Fixes
 **Version 1.0.0** - Ready for Homey App Store submission
 
