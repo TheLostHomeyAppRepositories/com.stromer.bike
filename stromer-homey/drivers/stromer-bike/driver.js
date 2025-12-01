@@ -13,15 +13,11 @@ class StromerBikeDriver extends Homey.Driver {
 
     session.setHandler('list_devices', async () => {
       try {
-        const email = this.homey.settings.get('stromer_email');
-        const password = this.homey.settings.get('stromer_password');
-        const clientId = this.homey.settings.get('stromer_client_id');
-
-        if (!email || !password || !clientId) {
-          throw new Error('Please configure your Stromer account credentials in App Settings first');
+        if (!authService.isAuthenticated) {
+          throw new Error('Please configure your Stromer account credentials in App Settings first and save to authenticate');
         }
 
-        this.log('Authenticating and fetching bikes...');
+        this.log('Fetching bikes from authenticated session...');
         bikes = await authService.getBikes();
         
         if (!bikes || bikes.length === 0) {
@@ -57,25 +53,20 @@ class StromerBikeDriver extends Homey.Driver {
   async onRepair(session, device) {
     session.setHandler('list_devices', async () => {
       try {
-        const email = this.homey.settings.get('stromer_email');
-        const password = this.homey.settings.get('stromer_password');
-        const clientId = this.homey.settings.get('stromer_client_id');
-
-        if (!email || !password || !clientId) {
-          throw new Error('Please configure your Stromer account credentials in App Settings first');
+        const authService = this.homey.app.getAuthService();
+        
+        if (!authService.isAuthenticated) {
+          throw new Error('Please configure your Stromer account credentials in App Settings first and save to authenticate');
         }
 
-        this.log('Re-authenticating...');
-        const authService = this.homey.app.getAuthService();
-        await authService.authenticateFromSettings();
-        
+        this.log('Re-initializing device with existing session...');
         await device.onInit();
         
         this.log('Device repaired successfully');
         return true;
       } catch (error) {
         this.error('Repair failed:', error.message);
-        throw new Error(`Re-authentication failed: ${error.message}`);
+        throw new Error(`Repair failed: ${error.message}`);
       }
     });
   }
