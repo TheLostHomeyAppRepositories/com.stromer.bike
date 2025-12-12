@@ -20,9 +20,7 @@
       "min": 0,
       "max": 100,
       "step": 5,
-      "label": {
-        "en": "Threshold"
-      },
+      "label": "%",
       "labelMultiplier": 1,
       "labelDecimals": 0
     }
