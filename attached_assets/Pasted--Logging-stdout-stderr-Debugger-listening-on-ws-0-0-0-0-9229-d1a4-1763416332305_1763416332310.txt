@@ -1,0 +1,97 @@
+─────────────── Logging stdout & stderr ───────────────
+Debugger listening on ws://0.0.0.0:9229/d1a4f4d4-da28-4055-bb22-8c0ed049b87e
+For help, see: https://nodejs.org/en/docs/inspector
+2025-11-17T21:45:59.370Z [log] [StromerApp] Stromer app has been initialized
+2025-11-17T21:45:59.376Z [log] [StromerApp] Initializing StromerAuthService
+2025-11-17T21:45:59.376Z [log] [StromerApp] App settings already configured, skipping migration check
+2025-11-17T21:45:59.376Z [log] [StromerApp] Found existing tokens, restoring session
+2025-11-17T21:45:59.622Z [log] [StromerApp] Token validation successful
+2025-11-17T21:45:59.625Z [log] [StromerApp] Flow cards registered
+2025-11-17T21:45:59.631Z [log] [ManagerDrivers] [Driver:stromer-bike] StromerBikeDriver has been initialized
+2025-11-17T21:45:59.714Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:29198543-861c-418d-921b-15379474e754] StromerBikeDevice has been initialized
+2025-11-17T21:46:02.749Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:29198543-861c-418d-921b-15379474e754] [DEBUG] Raw API status response: {
+  "trip_distance": 688,
+  "suiversion": "4.5.1.3",
+  "average_speed_trip": 30.1,
+  "average_speed_total": 29.4,
+  "power_on_cycles": 150,
+  "tntversion": "4.7",
+  "atmospheric_pressure": 0,
+  "battery_SOC": 100,
+  "assistance_level": -40,
+  "bike_speed": 0,
+  "trip_time": 82244,
+  "battery_health": 89,
+  "theft_flag": false,
+  "motor_temp": 23.7,
+  "battery_temp": 24,
+  "rcvts": 1763415962,
+  "average_energy_consumption": 14,
+  "total_time": 1041446,
+  "total_distance": 8505.8,
+  "light_on": 0,
+  "total_energy_consumption": 125885,
+  "lock_flag": true
+}
+2025-11-17T21:46:02.752Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:29198543-861c-418d-921b-15379474e754] [DEBUG] Raw API position response: {
+  "latitude": 52.024771,
+  "longitude": 5.188688,
+  "altitude": 26.1,
+  "speed": 0.229,
+  "timets": 1763415876,
+  "rcvts": 1763415962
+}
+2025-11-17T21:46:02.856Z [err] [ManagerDrivers] [Driver:stromer-bike] [Device:29198543-861c-418d-921b-15379474e754] Error: Invalid Capability: stromer_location
+    at Remote Process
+    at HomeyClient.emit (/node_modules/@athombv/homey-apps-sdk-v3/lib/HomeyClient.js:44:23)
+    at Object.emit (/node_modules/@athombv/homey-apps-sdk-v3/manager/drivers.js:78:54)
+    at Object.emit (/node_modules/@athombv/homey-apps-sdk-v3/lib/Driver.js:126:50)
+    at /node_modules/@athombv/homey-apps-sdk-v3/lib/Device.js:592:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at StromerBikeDevice.setCapabilityValue (/node_modules/@athombv/homey-apps-sdk-v3/lib/Device.js:574:23)
+    at StromerBikeDevice.updatePositionCapabilities (/app/drivers/stromer-bike/device.js:201:18)
+    at StromerBikeDevice.updateBikeData (/app/drivers/stromer-bike/device.js:154:20)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async StromerBikeDevice.onInit (/app/drivers/stromer-bike/device.js:22:5)
+    at async StromerBikeDevice._onInit (/node_modules/@athombv/homey-apps-sdk-v3/lib/Device.js:156:7) {
+  statusCode: 404
+}
+2025-11-17T21:46:02.872Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:29198543-861c-418d-921b-15379474e754] Starting polling with interval: 600000ms
+2025-11-17T21:46:58.675Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:29198543-861c-418d-921b-15379474e754] StromerBikeDevice has been deleted
+2025-11-17T21:46:58.680Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:29198543-861c-418d-921b-15379474e754] StromerBikeDevice has been uninited
+2025-11-17T21:47:07.202Z [log] [ManagerDrivers] [Driver:stromer-bike] Authenticating and fetching bikes...
+2025-11-17T21:47:07.436Z [log] [ManagerDrivers] [Driver:stromer-bike] Found 1 bike(s)
+2025-11-17T21:47:08.972Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:91d67f27-74ea-4f74-995d-8025b2211d85] StromerBikeDevice has been initialized
+2025-11-17T21:47:12.098Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:91d67f27-74ea-4f74-995d-8025b2211d85] [DEBUG] Raw API status response: {
+  "trip_distance": 688,
+  "suiversion": "4.5.1.3",
+  "average_speed_trip": 30.1,
+  "average_speed_total": 29.4,
+  "power_on_cycles": 150,
+  "tntversion": "4.7",
+  "atmospheric_pressure": 0,
+  "battery_SOC": 100,
+  "assistance_level": -40,
+  "bike_speed": 0,
+  "trip_time": 82244,
+  "battery_health": 89,
+  "theft_flag": false,
+  "motor_temp": 23.7,
+  "battery_temp": 24,
+  "rcvts": 1763416032,
+  "average_energy_consumption": 14,
+  "total_time": 1041446,
+  "total_distance": 8505.8,
+  "light_on": 0,
+  "total_energy_consumption": 125885,
+  "lock_flag": true
+}
+2025-11-17T21:47:12.099Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:91d67f27-74ea-4f74-995d-8025b2211d85] [DEBUG] Raw API position response: {
+  "latitude": 52.024771,
+  "longitude": 5.188688,
+  "altitude": 26.1,
+  "speed": 0.229,
+  "timets": 1763415876,
+  "rcvts": 1763415962
+}
+2025-11-17T21:47:12.345Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:91d67f27-74ea-4f74-995d-8025b2211d85] Starting polling with interval: 600000ms

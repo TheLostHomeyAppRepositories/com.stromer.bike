@@ -1,0 +1,62 @@
+✓ Validating app...
+✖ App did not validate against level `debug`:
+✖ Error: manifest.settings[0].type should be equal to one of the allowed values ["text","password","textarea","label"]
+manifest.settings[0] should have required property 'id' 
+manifest.settings[0] should have required property 'title' 
+manifest.settings[0].type should be equal to one of the allowed values ["number","slider"]
+manifest.settings[0] should have required property 'id' 
+manifest.settings[0] should have required property 'title' 
+manifest.settings[0].type should be equal to one of the allowed values ["radio","dropdown"]
+manifest.settings[0] should have required property 'id' 
+manifest.settings[0] should have required property 'title' 
+manifest.settings[0] should have required property 'values' 
+manifest.settings[0].type should be equal to one of the allowed values ["checkbox"]
+manifest.settings[0] should have required property 'id' 
+manifest.settings[0] should have required property 'title' 
+manifest.settings[0] should have required property 'title' 
+manifest.settings[0].children[0] should have required property 'title' 
+manifest.settings[0].children[0].type should be equal to one of the allowed values ["number","slider"]
+manifest.settings[0].children[0] should have required property 'title' 
+manifest.settings[0].children[0].value should be number 
+manifest.settings[0].children[0].type should be equal to one of the allowed values ["radio","dropdown"]
+manifest.settings[0].children[0] should have required property 'title' 
+manifest.settings[0].children[0] should have required property 'values' 
+manifest.settings[0].children[0].type should be equal to one of the allowed values ["checkbox"]
+manifest.settings[0].children[0] should have required property 'title' 
+manifest.settings[0].children[0].value should be boolean 
+manifest.settings[0].children[0].type should be equal to one of the allowed values ["group"]
+manifest.settings[0].children[0] should have required property 'title' 
+manifest.settings[0].children[0] should have required property 'children' 
+manifest.settings[0].children[0] matched no available schemas, see previous errors
+manifest.settings[0].children[1] should have required property 'title' 
+manifest.settings[0].children[1].type should be equal to one of the allowed values ["number","slider"]
+manifest.settings[0].children[1] should have required property 'title' 
+manifest.settings[0].children[1].value should be number 
+manifest.settings[0].children[1].type should be equal to one of the allowed values ["radio","dropdown"]
+manifest.settings[0].children[1] should have required property 'title' 
+manifest.settings[0].children[1] should have required property 'values' 
+manifest.settings[0].children[1].type should be equal to one of the allowed values ["checkbox"]
+manifest.settings[0].children[1] should have required property 'title' 
+manifest.settings[0].children[1].value should be boolean 
+manifest.settings[0].children[1].type should be equal to one of the allowed values ["group"]
+manifest.settings[0].children[1] should have required property 'title' 
+manifest.settings[0].children[1] should have required property 'children' 
+manifest.settings[0].children[1] matched no available schemas, see previous errors
+manifest.settings[0].children[2] should have required property 'title' 
+manifest.settings[0].children[2].type should be equal to one of the allowed values ["number","slider"]
+manifest.settings[0].children[2] should have required property 'title' 
+manifest.settings[0].children[2].value should be number 
+manifest.settings[0].children[2].type should be equal to one of the allowed values ["radio","dropdown"]
+manifest.settings[0].children[2] should have required property 'title' 
+manifest.settings[0].children[2] should have required property 'values' 
+manifest.settings[0].children[2].type should be equal to one of the allowed values ["checkbox"]
+manifest.settings[0].children[2] should have required property 'title' 
+manifest.settings[0].children[2].value should be boolean 
+manifest.settings[0].children[2].type should be equal to one of the allowed values ["group"]
+manifest.settings[0].children[2] should have required property 'title' 
+manifest.settings[0].children[2] should have required property 'children' 
+manifest.settings[0].children[2] matched no available schemas, see previous errors
+manifest.settings[0] matched no available schemas, see previous errors
+    at App._validate (/opt/homebrew/lib/node_modules/homey/lib/App.js:133:13)
+    at async App.runDocker (/opt/homebrew/lib/node_modules/homey/lib/App.js:262:19)
+    at async exports.handler (/opt/homebrew/lib/node_modules/homey/bin/cmds/app/run.js:48:5)

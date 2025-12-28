@@ -1,0 +1,172 @@
+─────────────── Logging stdout & stderr ───────────────
+Debugger listening on ws://0.0.0.0:9229/7f4a0686-497d-4be4-bfc1-d2fa5276d321
+For help, see: https://nodejs.org/en/docs/inspector
+2025-11-19T21:58:11.839Z [log] [StromerApp] Stromer app has been initialized
+2025-11-19T21:58:11.844Z [log] [StromerApp] Initializing StromerAuthService
+2025-11-19T21:58:11.845Z [log] [StromerApp] App settings already configured, skipping migration check
+2025-11-19T21:58:11.845Z [log] [StromerApp] Found existing tokens, restoring session
+2025-11-19T21:58:12.080Z [log] [StromerApp] Token validation successful
+2025-11-19T21:58:12.083Z [log] [StromerApp] Flow cards registered
+2025-11-19T21:58:12.090Z [log] [ManagerDrivers] [Driver:stromer-bike] StromerBikeDriver has been initialized
+2025-11-19T21:58:12.170Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] StromerBikeDevice has been initialized
+2025-11-19T21:58:12.188Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Fetching statistics (bike is active, last fetch > 1 hour ago)
+2025-11-19T21:58:12.361Z [log] [StromerApp] [ERROR] [StromerAPI] API call to /rapi/mobile/v4.1/bike/131799/statistics/2025/11/19/1/ failed: API call failed with status 404
+2025-11-19T21:58:12.362Z [log] [StromerApp] [ERROR] [StromerAPI] Failed to get day statistics: API call failed with status 404
+2025-11-19T21:58:12.397Z [log] [StromerApp] [ERROR] [StromerAPI] API call to /rapi/mobile/v4.1/bike/131799/statistics/2025/1/ failed: API call failed with status 404
+2025-11-19T21:58:12.398Z [log] [StromerApp] [ERROR] [StromerAPI] Failed to get year statistics: API call failed with status 404
+2025-11-19T21:58:12.429Z [log] [StromerApp] [ERROR] [StromerAPI] API call to /rapi/mobile/v4.1/bike/131799/statistics/2025/11/1/ failed: API call failed with status 404
+2025-11-19T21:58:12.429Z [log] [StromerApp] [ERROR] [StromerAPI] Failed to get month statistics: API call failed with status 404
+2025-11-19T21:58:18.778Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Raw API status response: {
+  "trip_distance": 56.7,
+  "suiversion": "4.5.1.3",
+  "average_speed_trip": 32.8,
+  "average_speed_total": 29.4,
+  "power_on_cycles": 150,
+  "tntversion": "4.7",
+  "atmospheric_pressure": 0,
+  "battery_SOC": 100,
+  "assistance_level": 0,
+  "bike_speed": 0,
+  "trip_time": 6224,
+  "battery_health": 89,
+  "theft_flag": false,
+  "motor_temp": 21.2,
+  "battery_temp": 22,
+  "rcvts": 1763589498,
+  "average_energy_consumption": 14,
+  "total_time": 1047671,
+  "total_distance": 8562.6,
+  "light_on": 0,
+  "total_energy_consumption": 126891,
+  "lock_flag": false
+}
+2025-11-19T21:58:18.779Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Raw API position response: {
+  "latitude": 52.024683,
+  "longitude": 5.189321,
+  "altitude": 6.1,
+  "speed": 3.311,
+  "timets": 1763565060,
+  "rcvts": 1763565287
+}
+2025-11-19T21:58:18.779Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Raw API bike details: {
+  "result": "ok",
+  "data": {
+    "nickname": "ST3 Wout",
+    "bikeid": 131799,
+    "bikemodel": "ST3",
+    "biketype": "ST5-m",
+    "color": "black",
+    "size": "sport XL",
+    "hardware": "omniinterfacec",
+    "connectivity": "standard",
+    "has_crash_detection": true,
+    "maintenance_feature": {
+      "display_maintenance_event": false,
+      "next_maintenance_km": 11146,
+      "next_maintenance_date": "20261105",
+      "next_maintenance_interval": 3000,
+      "customer_enabled_maintenance": true,
+      "last_maintenance_reset_km": 8146,
+      "last_maintenance_reset_date": "20251105"
+    }
+  }
+}
+2025-11-19T21:58:18.787Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [STATS] Year statistics: null or not fetched
+2025-11-19T21:58:18.788Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [STATS] Month statistics: null or not fetched
+2025-11-19T21:58:18.788Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [STATS] Day statistics: null or not fetched
+2025-11-19T21:58:18.830Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Raw bike details for user total distance: {
+  "result": "ok",
+  "data": {
+    "nickname": "ST3 Wout",
+    "bikeid": 131799,
+    "bikemodel": "ST3",
+    "biketype": "ST5-m",
+    "color": "black",
+    "size": "sport XL",
+    "hardware": "omniinterfacec",
+    "connectivity": "standard",
+    "has_crash_detection": true,
+    "maintenance_feature": {
+      "display_maintenance_event": false,
+      "next_maintenance_km": 11146,
+      "next_maintenance_date": "20261105",
+      "next_maintenance_interval": 3000,
+      "customer_enabled_maintenance": true,
+      "last_maintenance_reset_km": 8146,
+      "last_maintenance_reset_date": "20251105"
+    }
+  }
+}
+2025-11-19T21:58:18.848Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] Starting polling with interval: 600000ms
+2025-11-19T21:59:51.304Z [log] [StromerApp] [StromerAPI] Trip data reset successfully
+2025-11-19T21:59:52.447Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Raw API status response: {
+  "trip_distance": 56.7,
+  "suiversion": "4.5.1.3",
+  "average_speed_trip": 32.8,
+  "average_speed_total": 29.4,
+  "power_on_cycles": 150,
+  "tntversion": "4.7",
+  "atmospheric_pressure": 0,
+  "battery_SOC": 100,
+  "assistance_level": 0,
+  "bike_speed": 0,
+  "trip_time": 6224,
+  "battery_health": 89,
+  "theft_flag": false,
+  "motor_temp": 21.2,
+  "battery_temp": 22,
+  "rcvts": 1763589591,
+  "average_energy_consumption": 14,
+  "total_time": 1047671,
+  "total_distance": 8562.6,
+  "light_on": 0,
+  "total_energy_consumption": 126891,
+  "lock_flag": false
+}
+2025-11-19T21:59:52.447Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Raw API position response: {
+  "latitude": 52.024683,
+  "longitude": 5.189321,
+  "altitude": 6.1,
+  "speed": 3.311,
+  "timets": 1763565060,
+  "rcvts": 1763565287
+}
+2025-11-19T21:59:52.448Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [STATS] Year statistics: null or not fetched
+2025-11-19T21:59:52.448Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [STATS] Month statistics: null or not fetched
+2025-11-19T21:59:52.448Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [STATS] Day statistics: null or not fetched
+2025-11-19T21:59:56.118Z [log] [StromerApp] [StromerAPI] Trip data reset successfully
+2025-11-19T21:59:57.223Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Raw API status response: {
+  "trip_distance": 56.7,
+  "suiversion": "4.5.1.3",
+  "average_speed_trip": 32.8,
+  "average_speed_total": 29.4,
+  "power_on_cycles": 150,
+  "tntversion": "4.7",
+  "atmospheric_pressure": 0,
+  "battery_SOC": 100,
+  "assistance_level": 0,
+  "bike_speed": 0,
+  "trip_time": 6224,
+  "battery_health": 89,
+  "theft_flag": false,
+  "motor_temp": 21.2,
+  "battery_temp": 22,
+  "rcvts": 1763589591,
+  "average_energy_consumption": 14,
+  "total_time": 1047671,
+  "total_distance": 8562.6,
+  "light_on": 0,
+  "total_energy_consumption": 126891,
+  "lock_flag": false
+}
+2025-11-19T21:59:57.223Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Raw API position response: {
+  "latitude": 52.024683,
+  "longitude": 5.189321,
+  "altitude": 6.1,
+  "speed": 3.311,
+  "timets": 1763565060,
+  "rcvts": 1763565287
+}
+2025-11-19T21:59:57.224Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [STATS] Year statistics: null or not fetched
+2025-11-19T21:59:57.224Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [STATS] Month statistics: null or not fetched
+2025-11-19T21:59:57.224Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [STATS] Day statistics: null or not fetched

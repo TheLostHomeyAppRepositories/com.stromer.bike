@@ -1,0 +1,102 @@
+✓ Validating app...
+Warning: drivers.stromer-bike doesn't have a 'platforms' property. The default is ["local"].
+✓ App validated successfully against level `debug`
+✓ Creating Remote Debug Session...
+✓ Preparing Environment Variables...
+✓ Connecting to `Homey pro 23`...
+✓ Starting `com.stromer.bike@1.0.0` remotely...
+✓ Starting debugger at 0.0.0.0:9229...
+ — Open `about://inspect` in Google Chrome and select the remote target.
+✓ Starting `com.stromer.bike@1.0.0` in a Docker container...
+ — Press CTRL+C to quit.
+─────────────── Logging stdout & stderr ───────────────
+Debugger listening on ws://0.0.0.0:9229/601a9646-9e31-487b-9b58-9a7c5aff28ac
+For help, see: https://nodejs.org/en/docs/inspector
+2025-11-18T06:00:02.535Z [log] [StromerApp] Stromer app has been initialized
+2025-11-18T06:00:02.537Z [log] [StromerApp] Initializing StromerAuthService
+2025-11-18T06:00:02.537Z [log] [StromerApp] App settings already configured, skipping migration check
+2025-11-18T06:00:02.538Z [log] [StromerApp] Found existing tokens, restoring session
+2025-11-18T06:00:02.763Z [log] [StromerApp] Token validation successful
+2025-11-18T06:00:02.764Z [log] [StromerApp] Flow cards registered
+2025-11-18T06:00:02.768Z [log] [ManagerDrivers] [Driver:stromer-bike] StromerBikeDriver has been initialized
+2025-11-18T06:00:02.936Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] StromerBikeDevice has been initialized
+2025-11-18T06:00:02.961Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] [DEBUG] Fetching statistics (bike is active, last fetch > 1 hour ago)
+2025-11-18T06:00:02.963Z [err] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] Failed to update bike data: TypeError: this.authService.getBikeDetails is not a function
+    at StromerBikeDevice.updateBikeData (/app/drivers/stromer-bike/device.js:107:28)
+    at StromerBikeDevice.onInit (/app/drivers/stromer-bike/device.js:22:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async StromerBikeDevice._onInit (/node_modules/@athombv/homey-apps-sdk-v3/lib/Device.js:156:7)
+2025-11-18T06:00:02.964Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] Retry 1/5, backing off 2000ms
+2025-11-18T06:00:02.965Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] Starting polling with interval: 600000ms
+2025-11-18T06:00:20.873Z [log] [ManagerDrivers] [Driver:stromer-bike] Re-authenticating...
+2025-11-18T06:00:20.884Z [log] [StromerApp] Authenticating with Stromer API...
+2025-11-18T06:00:20.886Z [log] [StromerApp] [StromerAPI] Starting authentication with CSRF token flow
+2025-11-18T06:00:20.887Z [log] [StromerApp]   - API Version: v4
+2025-11-18T06:00:20.888Z [log] [StromerApp]   - Username: woutdool@gmail.com
+2025-11-18T06:00:20.888Z [log] [StromerApp]   - Client ID: 4P3VE9rBYdueKQioWb7nv7RJDU8EQsn2wiQaNqhG
+2025-11-18T06:00:20.888Z [log] [StromerApp]   - Password: ***hyr
+2025-11-18T06:00:20.888Z [log] [StromerApp] [StromerAPI] Step 1: GET login page to obtain CSRF token and session
+2025-11-18T06:00:21.141Z [log] [StromerApp] [StromerAPI] Cookies extracted: csrftoken
+2025-11-18T06:00:21.142Z [log] [StromerApp] [StromerAPI] Step 2: POST credentials with CSRF token and session
+2025-11-18T06:00:21.878Z [log] [StromerApp] [StromerAPI] Updated cookies: csrftoken, sessionid
+2025-11-18T06:00:21.878Z [log] [StromerApp] [StromerAPI] Step 3: Follow redirect to authorization endpoint
+2025-11-18T06:00:21.992Z [log] [StromerApp] [StromerAPI] Authorization code obtained: jXTPog4E...
+2025-11-18T06:00:21.993Z [log] [StromerApp] [StromerAPI] Step 4: Exchange authorization code for access token
+2025-11-18T06:00:22.108Z [log] [StromerApp] [StromerAPI] Access token received successfully
+2025-11-18T06:00:22.108Z [log] [StromerApp] [StromerAPI] Authentication successful
+2025-11-18T06:00:22.110Z [log] [StromerApp] Authentication successful, tokens saved
+2025-11-18T06:00:22.111Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] StromerBikeDevice has been initialized
+2025-11-18T06:00:22.111Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] [DEBUG] Fetching statistics (bike is active, last fetch > 1 hour ago)
+2025-11-18T06:00:22.112Z [err] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] Failed to update bike data: TypeError: this.authService.getBikeDetails is not a function
+    at StromerBikeDevice.updateBikeData (/app/drivers/stromer-bike/device.js:107:28)
+    at StromerBikeDevice.onInit (/app/drivers/stromer-bike/device.js:22:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async /app/drivers/stromer-bike/driver.js:72:9
+2025-11-18T06:00:22.113Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] Retry 1/5, backing off 2000ms
+2025-11-18T06:00:22.114Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] Starting polling with interval: 600000ms
+2025-11-18T06:00:22.115Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] Warning: Capability "onoff" listener was already registered.
+2025-11-18T06:00:22.115Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] Warning: Capability "locked" listener was already registered.
+2025-11-18T06:00:22.120Z [log] [ManagerDrivers] [Driver:stromer-bike] Device repaired successfully
+2025-11-18T06:00:42.396Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] StromerBikeDevice has been deleted
+2025-11-18T06:00:42.399Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:56f7e1d1-50cc-4635-91ed-15b0e2da49d4] StromerBikeDevice has been uninited
+2025-11-18T06:00:53.606Z [log] [ManagerDrivers] [Driver:stromer-bike] Authenticating and fetching bikes...
+2025-11-18T06:00:53.805Z [log] [ManagerDrivers] [Driver:stromer-bike] Found 1 bike(s)
+2025-11-18T06:00:55.167Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] StromerBikeDevice has been initialized
+2025-11-18T06:00:55.187Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Fetching statistics (bike is active, last fetch > 1 hour ago)
+2025-11-18T06:00:55.188Z [err] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] Failed to update bike data: TypeError: this.authService.getBikeDetails is not a function
+    at StromerBikeDevice.updateBikeData (/app/drivers/stromer-bike/device.js:107:28)
+    at StromerBikeDevice.onInit (/app/drivers/stromer-bike/device.js:22:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async StromerBikeDevice._onInit (/node_modules/@athombv/homey-apps-sdk-v3/lib/Device.js:156:7)
+2025-11-18T06:00:55.189Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] Retry 1/5, backing off 2000ms
+2025-11-18T06:00:55.189Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] Starting polling with interval: 600000ms
+2025-11-18T06:01:02.758Z [log] [ManagerDrivers] [Driver:stromer-bike] Re-authenticating...
+2025-11-18T06:01:02.759Z [log] [StromerApp] Authenticating with Stromer API...
+2025-11-18T06:01:02.759Z [log] [StromerApp] [StromerAPI] Starting authentication with CSRF token flow
+2025-11-18T06:01:02.759Z [log] [StromerApp]   - API Version: v4
+2025-11-18T06:01:02.759Z [log] [StromerApp]   - Username: woutdool@gmail.com
+2025-11-18T06:01:02.759Z [log] [StromerApp]   - Client ID: 4P3VE9rBYdueKQioWb7nv7RJDU8EQsn2wiQaNqhG
+2025-11-18T06:01:02.759Z [log] [StromerApp]   - Password: ***hyr
+2025-11-18T06:01:02.759Z [log] [StromerApp] [StromerAPI] Step 1: GET login page to obtain CSRF token and session
+2025-11-18T06:01:02.894Z [log] [StromerApp] [StromerAPI] Cookies extracted: csrftoken
+2025-11-18T06:01:02.895Z [log] [StromerApp] [StromerAPI] Step 2: POST credentials with CSRF token and session
+2025-11-18T06:01:04.645Z [log] [StromerApp] [StromerAPI] Updated cookies: csrftoken, sessionid
+2025-11-18T06:01:04.646Z [log] [StromerApp] [StromerAPI] Step 3: Follow redirect to authorization endpoint
+2025-11-18T06:01:04.763Z [log] [StromerApp] [StromerAPI] Authorization code obtained: y9QyAb7H...
+2025-11-18T06:01:04.763Z [log] [StromerApp] [StromerAPI] Step 4: Exchange authorization code for access token
+2025-11-18T06:01:04.871Z [log] [StromerApp] [StromerAPI] Access token received successfully
+2025-11-18T06:01:04.872Z [log] [StromerApp] [StromerAPI] Authentication successful
+2025-11-18T06:01:04.874Z [log] [StromerApp] Authentication successful, tokens saved
+2025-11-18T06:01:04.876Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] StromerBikeDevice has been initialized
+2025-11-18T06:01:04.877Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] [DEBUG] Fetching statistics (bike is active, last fetch > 1 hour ago)
+2025-11-18T06:01:04.878Z [err] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] Failed to update bike data: TypeError: this.authService.getBikeDetails is not a function
+    at StromerBikeDevice.updateBikeData (/app/drivers/stromer-bike/device.js:107:28)
+    at StromerBikeDevice.onInit (/app/drivers/stromer-bike/device.js:22:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async /app/drivers/stromer-bike/driver.js:72:9
+2025-11-18T06:01:04.879Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] Retry 1/5, backing off 2000ms
+2025-11-18T06:01:04.880Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] Starting polling with interval: 600000ms
+2025-11-18T06:01:04.880Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] Warning: Capability "onoff" listener was already registered.
+2025-11-18T06:01:04.880Z [log] [ManagerDrivers] [Driver:stromer-bike] [Device:129d0778-3670-4b35-b8ac-506c54f47696] Warning: Capability "locked" listener was already registered.
+2025-11-18T06:01:04.885Z [log] [ManagerDrivers] [Driver:stromer-bike] Device repaired successfully
+
